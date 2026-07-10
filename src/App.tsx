@@ -1,13 +1,32 @@
-import { FormEvent, useState } from 'react'
-import { Heart, Sparkles, Users } from 'lucide-react'
+import { FormEvent, useCallback, useEffect, useState } from 'react'
+import { BarChart3, Copy, Heart, LogOut, Sparkles, Users } from 'lucide-react'
 import { supabase } from './lib/supabase'
 
 type Mode = 'create' | 'join' | null
+type View = 'compare' | 'rankings'
 
 type RoomSession = {
   roomToken: string
   participantToken: string
   participantName: string
+}
+
+type Pair = {
+  left_id: number
+  left_name: string
+  right_id: number
+  right_name: string
+  comparison_count: number
+}
+
+type Ranking = {
+  rank_position: number
+  name_id: number
+  display_name: string
+  rating: number
+  wins: number
+  losses: number
+  comparisons: number
 }
 
 function loadSavedSession(): RoomSession | null {
@@ -27,29 +46,55 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [session, setSession] = useState<RoomSession | null>(loadSavedSession)
+  const [view, setView] = useState<View>('compare')
+  const [pair, setPair] = useState<Pair | null>(null)
+  const [rankings, setRankings] = useState<Ranking[]>([])
+  const [copied, setCopied] = useState(false)
 
   const openForm = (nextMode: Exclude<Mode, null>) => {
     setError('')
     setMode(nextMode)
   }
 
+  const loadRankings = useCallback(async (participantToken: string) => {
+    const { data, error: rankingError } = await supabase.rpc('get_my_rankings', {
+      p_access_token: participantToken,
+      p_limit: 15,
+    })
+    if (rankingError) throw rankingError
+    setRankings((data ?? []) as Ranking[])
+  }, [])
+
+  const loadPair = useCallback(async (participantToken: string) => {
+    setLoading(true)
+    setError('')
+    try {
+      const { data, error: pairError } = await supabase.rpc('get_next_pair', {
+        p_access_token: participantToken,
+      })
+      if (pairError) throw pairError
+      setPair((data?.[0] as Pair | undefined) ?? null)
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Could not load the next pair.')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!session) return
+    void loadPair(session.participantToken)
+    void loadRankings(session.participantToken)
+  }, [session, loadPair, loadRankings])
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
-
     const participantName = name.trim()
-    if (!participantName) {
-      setError('Please enter your name.')
-      return
-    }
-
-    if (mode === 'join' && !roomCode.trim()) {
-      setError('Please enter the room code.')
-      return
-    }
+    if (!participantName) return setError('Please enter your name.')
+    if (mode === 'join' && !roomCode.trim()) return setError('Please enter the room code.')
 
     setLoading(true)
-
     try {
       const rpc = mode === 'create'
         ? supabase.rpc('create_room', { owner_name: participantName })
@@ -57,65 +102,128 @@ export default function App() {
             join_token: roomCode.trim().toUpperCase(),
             participant_name: participantName,
           })
-
       const { data, error: rpcError } = await rpc
-
-      if (rpcError) {
-        setError(rpcError.message.includes('Room not found')
-          ? 'We could not find that room. Check the code and try again.'
-          : rpcError.message)
-        return
-      }
-
+      if (rpcError) throw rpcError
       const result = data?.[0]
-      if (!result) {
-        setError('Something went wrong creating your room.')
-        return
-      }
+      if (!result) throw new Error('Something went wrong creating your room.')
 
       const nextSession = {
         roomToken: result.room_token,
         participantToken: result.participant_token,
         participantName,
       }
-
       localStorage.setItem('name-duet-session', JSON.stringify(nextSession))
       setSession(nextSession)
       setMode(null)
-    } catch {
-      setError('We could not reach Name Duet. Please try again.')
+    } catch (caught) {
+      const message = caught instanceof Error ? caught.message : 'We could not reach Name Duet.'
+      setError(message.includes('Room not found') ? 'We could not find that room. Check the code and try again.' : message)
     } finally {
+      setLoading(false)
+    }
+  }
+
+  const vote = async (winnerId: number) => {
+    if (!session || !pair || loading) return
+    setLoading(true)
+    setError('')
+    try {
+      const { error: voteError } = await supabase.rpc('record_vote', {
+        p_access_token: session.participantToken,
+        p_left_id: pair.left_id,
+        p_right_id: pair.right_id,
+        p_winner_id: winnerId,
+      })
+      if (voteError) throw voteError
+      await Promise.all([
+        loadPair(session.participantToken),
+        loadRankings(session.participantToken),
+      ])
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Your choice could not be saved.')
       setLoading(false)
     }
   }
 
   const copyInvite = async () => {
     if (!session) return
-    const inviteUrl = `${window.location.origin}/?room=${session.roomToken}`
-    await navigator.clipboard.writeText(inviteUrl)
+    await navigator.clipboard.writeText(`${window.location.origin}/?room=${session.roomToken}`)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1800)
+  }
+
+  const leaveRoom = () => {
+    localStorage.removeItem('name-duet-session')
+    setSession(null)
+    setPair(null)
+    setRankings([])
+    setView('compare')
   }
 
   if (session) {
     return (
-      <main className="shell">
+      <main className="shell appShell">
         <nav className="nav">
           <a className="brand" href="/" aria-label="Name Duet home">
-            <span className="brandMark">N</span>
-            <span>Name Duet</span>
+            <span className="brandMark">N</span><span>Name Duet</span>
           </a>
           <span className="status">Room {session.roomToken}</span>
         </nav>
 
-        <section className="roomWelcome">
-          <div className="eyebrow"><Sparkles size={15} /> Your duet has begun</div>
-          <h1>Welcome, <em>{session.participantName}.</em></h1>
-          <p className="lede">Your private room is ready. Invite Laura, then you can begin comparing names independently.</p>
-          <div className="inviteCard">
-            <span>Room code</span>
-            <strong>{session.roomToken}</strong>
-            <button className="primary" type="button" onClick={copyInvite}>Copy invite link</button>
+        <section className="workspace">
+          <header className="workspaceHeader">
+            <div>
+              <span className="eyebrow"><Sparkles size={15} /> {session.participantName}'s duet</span>
+              <h1 className="workspaceTitle">Which name feels right?</h1>
+              <p>Trust your first reaction. The rankings get smarter with every choice.</p>
+            </div>
+            <div className="roomActions">
+              <button className="secondary compactButton" type="button" onClick={copyInvite}><Copy size={17} /> {copied ? 'Copied!' : 'Invite partner'}</button>
+              <button className="ghostButton" type="button" onClick={leaveRoom} aria-label="Leave room"><LogOut size={18} /></button>
+            </div>
+          </header>
+
+          <div className="viewTabs" role="tablist">
+            <button className={view === 'compare' ? 'active' : ''} onClick={() => setView('compare')}><Heart size={17} /> Compare</button>
+            <button className={view === 'rankings' ? 'active' : ''} onClick={() => setView('rankings')}><BarChart3 size={17} /> My ranking</button>
           </div>
-          <p className="finePrint">The comparison experience is the next build step.</p>
+
+          {error && <p className="formError appError">{error}</p>}
+
+          {view === 'compare' ? (
+            <section className="comparisonStage">
+              <div className="comparisonMeta">
+                <span>{pair?.comparison_count ?? 0} choices made</span>
+                <span>Tap the name you prefer</span>
+              </div>
+              {pair ? (
+                <div className={`liveCards ${loading ? 'isLoading' : ''}`}>
+                  <button className="choiceCard" type="button" disabled={loading} onClick={() => vote(pair.left_id)}>
+                    <span className="choiceHint">This one</span>
+                    <strong>{pair.left_name}</strong>
+                  </button>
+                  <span className="orBadge">or</span>
+                  <button className="choiceCard alternate" type="button" disabled={loading} onClick={() => vote(pair.right_id)}>
+                    <span className="choiceHint">This one</span>
+                    <strong>{pair.right_name}</strong>
+                  </button>
+                </div>
+              ) : (
+                <div className="loadingCard">{loading ? 'Finding two names…' : 'No pair available yet.'}</div>
+              )}
+            </section>
+          ) : (
+            <section className="rankingPanel">
+              <div className="rankingHeader"><div><span className="kicker">Your current taste</span><h2>Top names</h2></div><span className="counter">{pair?.comparison_count ?? 0} votes</span></div>
+              {rankings.length ? rankings.map((item) => (
+                <article className="rankingRow" key={item.name_id}>
+                  <span className="rankNumber">{item.rank_position}</span>
+                  <strong>{item.display_name}</strong>
+                  <span className="record">{item.wins}–{item.losses}</span>
+                </article>
+              )) : <p className="emptyState">Make a few choices and your ranking will appear here.</p>}
+            </section>
+          )}
         </section>
       </main>
     )
@@ -124,19 +232,14 @@ export default function App() {
   return (
     <main className="shell">
       <nav className="nav">
-        <a className="brand" href="/" aria-label="Name Duet home">
-          <span className="brandMark">N</span>
-          <span>Name Duet</span>
-        </a>
-        <span className="status">Build 2 · connected</span>
+        <a className="brand" href="/" aria-label="Name Duet home"><span className="brandMark">N</span><span>Name Duet</span></a>
+        <span className="status">Private beta</span>
       </nav>
 
       <section className="hero">
         <div className="eyebrow"><Sparkles size={15} /> Find the name you both love</div>
         <h1>Two opinions.<br /><em>One perfect name.</em></h1>
-        <p className="lede">
-          Compare baby names independently, then watch Name Duet uncover the favorites you share.
-        </p>
+        <p className="lede">Compare baby names independently, then watch Name Duet uncover the favorites you share.</p>
         <div className="actions">
           <button className="primary" type="button" onClick={() => openForm('create')}>Create your room</button>
           <button className="secondary" type="button" onClick={() => openForm('join')}>Join with a code</button>
@@ -148,45 +251,21 @@ export default function App() {
             <span className="kicker">{mode === 'create' ? 'Start a new duet' : 'Join your partner'}</span>
             <h2>{mode === 'create' ? 'Create your room' : 'Enter your room code'}</h2>
             <form onSubmit={handleSubmit}>
-              <label>
-                Your name
-                <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Nathaniel" autoFocus />
-              </label>
-              {mode === 'join' && (
-                <label>
-                  Room code
-                  <input value={roomCode} onChange={(event) => setRoomCode(event.target.value.toUpperCase())} placeholder="ABC12345" maxLength={8} />
-                </label>
-              )}
+              <label>Your name<input value={name} onChange={(event) => setName(event.target.value)} placeholder="Nathaniel" autoFocus /></label>
+              {mode === 'join' && <label>Room code<input value={roomCode} onChange={(event) => setRoomCode(event.target.value.toUpperCase())} placeholder="ABC12345" maxLength={8} /></label>}
               {error && <p className="formError">{error}</p>}
-              <button className="primary modalSubmit" type="submit" disabled={loading}>
-                {loading ? 'One moment…' : mode === 'create' ? 'Create room' : 'Join room'}
-              </button>
+              <button className="primary modalSubmit" type="submit" disabled={loading}>{loading ? 'One moment…' : mode === 'create' ? 'Create room' : 'Join room'}</button>
             </form>
           </section>
         )}
       </section>
 
       <section className="preview" aria-label="Product preview">
-        <div className="previewHeader">
-          <div>
-            <span className="kicker">A little closer</span>
-            <h2>Which name feels right?</h2>
-          </div>
-          <span className="counter">24 compared</span>
-        </div>
+        <div className="previewHeader"><div><span className="kicker">A little closer</span><h2>Which name feels right?</h2></div><span className="counter">24 compared</span></div>
         <div className="cards">
-          <article className="nameCard">
-            <span className="origin">Latin · golden</span>
-            <strong>Aurelia</strong>
-            <button type="button">Choose Aurelia</button>
-          </article>
+          <article className="nameCard"><span className="origin">Latin · golden</span><strong>Aurelia</strong><button type="button">Choose Aurelia</button></article>
           <div className="or">or</div>
-          <article className="nameCard accent">
-            <span className="origin">Spanish · wise protector</span>
-            <strong>Ramona</strong>
-            <button type="button">Choose Ramona</button>
-          </article>
+          <article className="nameCard accent"><span className="origin">Spanish · wise protector</span><strong>Ramona</strong><button type="button">Choose Ramona</button></article>
         </div>
       </section>
 
