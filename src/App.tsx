@@ -37,6 +37,11 @@ function getMessage(caught: unknown, fallback: string) {
   return fallback
 }
 
+function splitNameDetails(value: string) {
+  const [displayName, ...detailParts] = value.split('\n')
+  return { displayName, details: detailParts.join(' ').trim() }
+}
+
 export default function App() {
   const initialParams = new URLSearchParams(window.location.search)
   const [mode, setMode] = useState<Mode>(null)
@@ -200,6 +205,9 @@ export default function App() {
   if (session) {
     const one = consensus[0]?.participant_one_name
     const two = consensus[0]?.participant_two_name
+    const left = pair ? splitNameDetails(pair.left_name) : null
+    const right = pair ? splitNameDetails(pair.right_name) : null
+
     return (
       <main className="shell appShell">
         <nav className="nav">
@@ -228,10 +236,16 @@ export default function App() {
           {view === 'compare' && (
             <section className="comparisonStage">
               <div className="comparisonMeta"><span>{pair?.comparison_count ?? 0} choices made</span><span>Tap the name you prefer</span></div>
-              {pair ? <div className={`liveCards ${loading ? 'isLoading' : ''}`}>
-                <button className="choiceCard" type="button" disabled={loading} onClick={() => vote(pair.left_id)}><span className="choiceHint">This one</span><strong>{pair.left_name}</strong></button>
+              {pair && left && right ? <div className={`liveCards ${loading ? 'isLoading' : ''}`}>
+                <button className="choiceCard" type="button" disabled={loading} onClick={() => vote(pair.left_id)}>
+                  <strong className="choiceName">{left.displayName}</strong>
+                  {left.details && <span className="choiceDetails">{left.details}</span>}
+                </button>
                 <span className="orBadge">or</span>
-                <button className="choiceCard alternate" type="button" disabled={loading} onClick={() => vote(pair.right_id)}><span className="choiceHint">This one</span><strong>{pair.right_name}</strong></button>
+                <button className="choiceCard alternate" type="button" disabled={loading} onClick={() => vote(pair.right_id)}>
+                  <strong className="choiceName">{right.displayName}</strong>
+                  {right.details && <span className="choiceDetails">{right.details}</span>}
+                </button>
               </div> : <div className="loadingCard">{loading ? 'Finding two names…' : 'No pair available yet.'}</div>}
             </section>
           )}
