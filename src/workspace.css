@@ -30,9 +30,9 @@
 .emptyState { padding: 28px 0; color: #80736d; }
 
 @media (max-width: 720px) {
-  .appShell { height: 100dvh; min-height: 100dvh; overflow: hidden; }
+  .appShell { height: 100svh; min-height: 100svh; overflow: hidden; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
   .appShell > .nav { padding-top: env(safe-area-inset-top); }
-  .workspace { margin-top: 8px; height: calc(100dvh - 62px - env(safe-area-inset-top)); display: flex; flex-direction: column; min-height: 0; }
+  .workspace { margin-top: 8px; height: calc(100svh - 72px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); display: flex; flex-direction: column; min-height: 0; }
   .workspaceHeader { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 8px; }
   .workspaceHeader > div:first-child { display: none; }
   .roomActions { width: 100%; display: grid; grid-template-columns: 1fr 1fr 48px; gap: 7px; }
@@ -40,9 +40,9 @@
   .viewTabs { width: 100%; margin-bottom: 8px; }
   .viewTabs button { padding: 7px 5px; gap: 5px; font-size: 12px; }
   .comparisonStage, .rankingPanel { padding: 10px; border-radius: 20px; min-height: 0; overflow: auto; }
-  .comparisonStage { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .comparisonStage { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 14px; }
   .comparisonMeta { margin-bottom: 8px; font-size: 9px; flex: 0 0 auto; }
-  .liveCards { flex: 1; min-height: 0; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 28px minmax(0, 1fr); gap: 6px; }
+  .liveCards { flex: 1; min-height: 0; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 28px minmax(0, 1fr); gap: 6px; padding-bottom: 2px; }
   .choiceCard { min-height: 0; height: 100%; padding: 14px 16px; border-radius: 18px; gap: 8px; }
   .choiceName { font-size: clamp(34px, 11vw, 52px); }
   .choiceDetails { font-size: 9px; line-height: 1.25; }
@@ -52,7 +52,7 @@
 }
 
 @media (max-width: 390px) {
-  .workspace { height: calc(100dvh - 56px - env(safe-area-inset-top)); }
+  .workspace { height: calc(100svh - 66px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
   .compactButton { font-size: 11px; padding: 7px 8px; }
   .viewTabs button { font-size: 11px; }
   .viewTabs button svg { width: 15px; height: 15px; }
