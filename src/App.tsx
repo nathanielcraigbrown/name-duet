@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { Heart, Sparkles, Users, X } from 'lucide-react'
+import { Heart, Sparkles, Users } from 'lucide-react'
 import { supabase } from './lib/supabase'
 
 type Mode = 'create' | 'join' | null
@@ -28,12 +28,7 @@ export default function App() {
   const [error, setError] = useState('')
   const [session, setSession] = useState<RoomSession | null>(loadSavedSession)
 
-  const closeModal = () => {
-    setMode(null)
-    setError('')
-  }
-
-  const openModal = (nextMode: Exclude<Mode, null>) => {
+  const openForm = (nextMode: Exclude<Mode, null>) => {
     setError('')
     setMode(nextMode)
   }
@@ -86,7 +81,7 @@ export default function App() {
 
       localStorage.setItem('name-duet-session', JSON.stringify(nextSession))
       setSession(nextSession)
-      closeModal()
+      setMode(null)
     } catch {
       setError('We could not reach Name Duet. Please try again.')
     } finally {
@@ -133,7 +128,7 @@ export default function App() {
           <span className="brandMark">N</span>
           <span>Name Duet</span>
         </a>
-        <span className="status">Connected beta</span>
+        <span className="status">Build 2 · connected</span>
       </nav>
 
       <section className="hero">
@@ -143,10 +138,33 @@ export default function App() {
           Compare baby names independently, then watch Name Duet uncover the favorites you share.
         </p>
         <div className="actions">
-          <button className="primary" type="button" onClick={() => openModal('create')}>Create your room</button>
-          <button className="secondary" type="button" onClick={() => openModal('join')}>Join with a code</button>
+          <button className="primary" type="button" onClick={() => openForm('create')}>Create your room</button>
+          <button className="secondary" type="button" onClick={() => openForm('join')}>Join with a code</button>
         </div>
         <p className="finePrint">No account required. Your room stays private.</p>
+
+        {mode && (
+          <section className="inlineRoomForm" aria-live="polite">
+            <span className="kicker">{mode === 'create' ? 'Start a new duet' : 'Join your partner'}</span>
+            <h2>{mode === 'create' ? 'Create your room' : 'Enter your room code'}</h2>
+            <form onSubmit={handleSubmit}>
+              <label>
+                Your name
+                <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Nathaniel" autoFocus />
+              </label>
+              {mode === 'join' && (
+                <label>
+                  Room code
+                  <input value={roomCode} onChange={(event) => setRoomCode(event.target.value.toUpperCase())} placeholder="ABC12345" maxLength={8} />
+                </label>
+              )}
+              {error && <p className="formError">{error}</p>}
+              <button className="primary modalSubmit" type="submit" disabled={loading}>
+                {loading ? 'One moment…' : mode === 'create' ? 'Create room' : 'Join room'}
+              </button>
+            </form>
+          </section>
+        )}
       </section>
 
       <section className="preview" aria-label="Product preview">
@@ -177,32 +195,6 @@ export default function App() {
         <article><Heart size={21} /><h3>Discover overlap</h3><p>See shared favorites, hidden gems, and meaningful differences.</p></article>
         <article><Sparkles size={21} /><h3>Get smarter</h3><p>Adaptive comparisons reveal your preferences with fewer choices.</p></article>
       </section>
-
-      {mode && (
-        <div className="modalBackdrop" role="presentation" onMouseDown={closeModal}>
-          <section className="modal" role="dialog" aria-modal="true" aria-labelledby="room-title" onMouseDown={(event) => event.stopPropagation()}>
-            <button className="modalClose" type="button" aria-label="Close" onClick={closeModal}><X size={20} /></button>
-            <span className="kicker">{mode === 'create' ? 'Start a new duet' : 'Join your partner'}</span>
-            <h2 id="room-title">{mode === 'create' ? 'Create your room' : 'Enter your room code'}</h2>
-            <form onSubmit={handleSubmit}>
-              <label>
-                Your name
-                <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Nathaniel" autoFocus />
-              </label>
-              {mode === 'join' && (
-                <label>
-                  Room code
-                  <input value={roomCode} onChange={(event) => setRoomCode(event.target.value.toUpperCase())} placeholder="ABC12345" maxLength={8} />
-                </label>
-              )}
-              {error && <p className="formError">{error}</p>}
-              <button className="primary modalSubmit" type="submit" disabled={loading}>
-                {loading ? 'One moment…' : mode === 'create' ? 'Create room' : 'Join room'}
-              </button>
-            </form>
-          </section>
-        </div>
-      )}
     </main>
   )
 }
