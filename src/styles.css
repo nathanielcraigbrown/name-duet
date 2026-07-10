@@ -9,9 +9,10 @@
 }
 
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; min-width: 320px; min-height: 100vh; }
 button, input { font: inherit; }
-button { cursor: pointer; }
+button { cursor: pointer; touch-action: manipulation; min-height: 48px; }
 button:disabled { cursor: wait; opacity: .65; }
 
 .shell {
@@ -20,204 +21,78 @@ button:disabled { cursor: wait; opacity: .65; }
   padding: 24px 0 64px;
 }
 
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; font-weight: 600; }
+.brandMark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #7d4d48; color: white; font-family: Georgia, serif; flex: 0 0 auto; }
+.status, .counter { padding: 8px 12px; border: 1px solid rgba(47, 41, 38, .12); border-radius: 999px; font-size: 12px; color: #756b66; background: rgba(255,255,255,.45); }
 
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: inherit;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.brandMark {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #7d4d48;
-  color: white;
-  font-family: Georgia, serif;
-}
-
-.status, .counter {
-  padding: 8px 12px;
-  border: 1px solid rgba(47, 41, 38, .12);
-  border-radius: 999px;
-  font-size: 12px;
-  color: #756b66;
-  background: rgba(255,255,255,.45);
-}
-
-.hero, .roomWelcome {
-  max-width: 760px;
-  margin: 96px auto 72px;
-  text-align: center;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: #8a5c55;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-}
-
-h1 {
-  margin: 20px 0 22px;
-  font-size: clamp(48px, 8vw, 88px);
-  line-height: .98;
-  letter-spacing: -.055em;
-}
-
-h1 em {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 600;
-  color: #8a5c55;
-}
-
-.lede {
-  max-width: 610px;
-  margin: 0 auto;
-  color: #716761;
-  font-size: clamp(18px, 2.4vw, 22px);
-  line-height: 1.55;
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 34px;
-}
-
-.actions button, .nameCard button, .modalSubmit, .inviteCard button {
-  border-radius: 14px;
-  padding: 14px 20px;
-  border: 1px solid transparent;
-  font-weight: 600;
-}
-
-.primary {
-  background: #3e3531;
-  color: white;
-  box-shadow: 0 10px 24px rgba(47,41,38,.16);
-}
-
-.secondary {
-  color: #3e3531;
-  background: rgba(255,255,255,.58);
-  border-color: rgba(47,41,38,.13) !important;
-}
-
+.hero, .roomWelcome { max-width: 760px; margin: 96px auto 72px; text-align: center; }
+.eyebrow { display: inline-flex; align-items: center; gap: 7px; color: #8a5c55; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+h1 { margin: 20px 0 22px; font-size: clamp(48px, 8vw, 88px); line-height: .98; letter-spacing: -.055em; }
+h1 em { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; color: #8a5c55; }
+.lede { max-width: 610px; margin: 0 auto; color: #716761; font-size: clamp(18px, 2.4vw, 22px); line-height: 1.55; }
+.actions { display: flex; justify-content: center; gap: 12px; margin-top: 34px; }
+.actions button, .nameCard button, .modalSubmit, .inviteCard button { border-radius: 14px; padding: 14px 20px; border: 1px solid transparent; font-weight: 600; }
+.primary { background: #3e3531; color: white; box-shadow: 0 10px 24px rgba(47,41,38,.16); }
+.secondary { color: #3e3531; background: rgba(255,255,255,.58); border-color: rgba(47,41,38,.13) !important; }
 .finePrint { color: #948983; font-size: 12px; margin-top: 14px; }
 
-.inlineRoomForm {
-  width: min(500px, 100%);
-  margin: 28px auto 0;
-  padding: 28px;
-  text-align: left;
-  border: 1px solid rgba(47,41,38,.1);
-  border-radius: 24px;
-  background: rgba(255,255,255,.68);
-  box-shadow: 0 22px 60px rgba(73,55,46,.1);
-}
+.inlineRoomForm { width: min(500px, 100%); margin: 28px auto 0; padding: 28px; text-align: left; border: 1px solid rgba(47,41,38,.1); border-radius: 24px; background: rgba(255,255,255,.68); box-shadow: 0 22px 60px rgba(73,55,46,.1); }
 .inlineRoomForm h2 { margin-bottom: 22px; }
 .inlineRoomForm form { display: grid; gap: 16px; }
 .inlineRoomForm label { display: grid; gap: 8px; color: #655b56; font-size: 13px; font-weight: 600; }
-.inlineRoomForm input {
-  width: 100%;
-  padding: 15px 16px;
-  border: 1px solid rgba(47,41,38,.14);
-  border-radius: 13px;
-  outline: none;
-  color: #2f2926;
-  background: white;
-}
+.inlineRoomForm input { width: 100%; min-height: 52px; padding: 15px 16px; border: 1px solid rgba(47,41,38,.14); border-radius: 13px; outline: none; color: #2f2926; background: white; font-size: 16px; }
 .inlineRoomForm input:focus { border-color: #8a5c55; box-shadow: 0 0 0 3px rgba(138,92,85,.12); }
 
-.preview {
-  padding: clamp(22px, 4vw, 42px);
-  border: 1px solid rgba(47,41,38,.1);
-  border-radius: 30px;
-  background: rgba(255,255,255,.58);
-  box-shadow: 0 28px 70px rgba(73,55,46,.1);
-}
-
-.previewHeader {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: flex-start;
-  margin-bottom: 28px;
-}
-
+.preview { padding: clamp(22px, 4vw, 42px); border: 1px solid rgba(47,41,38,.1); border-radius: 30px; background: rgba(255,255,255,.58); box-shadow: 0 28px 70px rgba(73,55,46,.1); }
+.previewHeader { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 28px; }
 .kicker { color: #9a6a63; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
 h2 { margin: 7px 0 0; font-size: clamp(25px, 4vw, 38px); letter-spacing: -.035em; }
-
 .cards { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
-.nameCard {
-  min-height: 260px;
-  padding: 28px;
-  border-radius: 24px;
-  background: #ede3d7;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid rgba(47,41,38,.08);
-}
+.nameCard { min-height: 260px; padding: 28px; border-radius: 24px; background: #ede3d7; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(47,41,38,.08); }
 .nameCard.accent { background: #e4d4ce; }
 .nameCard strong { font-family: Georgia, serif; font-size: clamp(38px, 6vw, 62px); font-weight: 500; }
-.nameCard button { background: rgba(255,255,255,.72); color: #3e3531; border-color: rgba(47,41,38,.1); }
+.nameCard button { background: rgba(255,255,255,.72); color: #3e3531; border-color: rgba(47,41,38,.1); width: 100%; }
 .origin { color: #7f716a; font-size: 13px; }
 .or { color: #9b8f89; font-family: Georgia, serif; font-style: italic; }
-
-.features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-top: 24px;
-}
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px; }
 .features article { padding: 26px; }
 .features h3 { margin: 14px 0 8px; }
 .features p { margin: 0; color: #786d67; line-height: 1.55; }
-
 .modalSubmit { width: 100%; margin-top: 2px; }
 .formError { margin: -4px 0 0; color: #a33f36; font-size: 13px; line-height: 1.4; }
-
-.inviteCard {
-  width: min(440px, 100%);
-  margin: 34px auto 0;
-  padding: 28px;
-  display: grid;
-  gap: 14px;
-  border: 1px solid rgba(47,41,38,.1);
-  border-radius: 24px;
-  background: rgba(255,255,255,.62);
-  box-shadow: 0 22px 60px rgba(73,55,46,.1);
-}
+.inviteCard { width: min(440px, 100%); margin: 34px auto 0; padding: 28px; display: grid; gap: 14px; border: 1px solid rgba(47,41,38,.1); border-radius: 24px; background: rgba(255,255,255,.62); box-shadow: 0 22px 60px rgba(73,55,46,.1); }
 .inviteCard span { color: #8a7c75; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
-.inviteCard strong { font-family: Georgia, serif; font-size: 42px; letter-spacing: .08em; }
+.inviteCard strong { font-family: Georgia, serif; font-size: 42px; letter-spacing: .08em; overflow-wrap: anywhere; }
 
 @media (max-width: 720px) {
-  .shell { width: min(100% - 20px, 680px); padding-top: 14px; }
-  .hero, .roomWelcome { margin: 70px auto 52px; }
-  .actions { flex-direction: column; }
+  .shell { width: min(100% - 24px, 680px); padding: 14px 0 40px; }
+  .nav { align-items: flex-start; }
+  .brand { font-size: 15px; }
+  .status { max-width: 46vw; text-align: center; line-height: 1.2; }
+  .hero, .roomWelcome { margin: 56px auto 42px; }
+  .eyebrow { font-size: 11px; letter-spacing: .055em; }
+  h1 { font-size: clamp(42px, 14vw, 64px); line-height: 1.01; }
+  .lede { font-size: 18px; line-height: 1.48; }
+  .actions { flex-direction: column; gap: 10px; margin-top: 28px; }
   .actions button { width: 100%; }
-  .cards { grid-template-columns: 1fr; }
-  .or { text-align: center; }
-  .nameCard { min-height: 220px; }
-  .features { grid-template-columns: 1fr; }
-  .previewHeader { align-items: center; }
+  .inlineRoomForm { margin-top: 20px; padding: 22px 18px; border-radius: 20px; }
+  .preview { padding: 20px 16px; border-radius: 22px; }
+  .previewHeader { align-items: center; margin-bottom: 20px; }
   .counter { white-space: nowrap; }
-  .inlineRoomForm { padding: 24px 20px; }
+  .cards { grid-template-columns: 1fr; gap: 12px; }
+  .or { text-align: center; }
+  .nameCard { min-height: 190px; padding: 22px; border-radius: 20px; }
+  .features { grid-template-columns: 1fr; }
+  .features article { padding: 20px 4px; }
+  .inviteCard { padding: 22px 18px; }
+  .inviteCard strong { font-size: 34px; }
+}
+
+@media (max-width: 390px) {
+  .shell { width: min(100% - 16px, 680px); }
+  .status { font-size: 10px; padding: 7px 9px; }
+  h1 { font-size: 40px; }
+  .lede { font-size: 17px; }
+  .inlineRoomForm { padding: 20px 16px; }
 }
