@@ -10,20 +10,32 @@ type RoomSession = {
   participantName: string
 }
 
+function loadSavedSession(): RoomSession | null {
+  try {
+    const saved = localStorage.getItem('name-duet-session')
+    return saved ? JSON.parse(saved) : null
+  } catch {
+    localStorage.removeItem('name-duet-session')
+    return null
+  }
+}
+
 export default function App() {
   const [mode, setMode] = useState<Mode>(null)
   const [name, setName] = useState('')
-  const [roomCode, setRoomCode] = useState('')
+  const [roomCode, setRoomCode] = useState(() => new URLSearchParams(window.location.search).get('room') ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [session, setSession] = useState<RoomSession | null>(() => {
-    const saved = localStorage.getItem('name-duet-session')
-    return saved ? JSON.parse(saved) : null
-  })
+  const [session, setSession] = useState<RoomSession | null>(loadSavedSession)
 
   const closeModal = () => {
     setMode(null)
     setError('')
+  }
+
+  const openModal = (nextMode: Exclude<Mode, null>) => {
+    setError('')
+    setMode(nextMode)
   }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -43,38 +55,43 @@ export default function App() {
 
     setLoading(true)
 
-    const rpc = mode === 'create'
-      ? supabase.rpc('create_room', { owner_name: participantName })
-      : supabase.rpc('join_room', {
-          join_token: roomCode.trim().toUpperCase(),
-          participant_name: participantName,
-        })
+    try {
+      const rpc = mode === 'create'
+        ? supabase.rpc('create_room', { owner_name: participantName })
+        : supabase.rpc('join_room', {
+            join_token: roomCode.trim().toUpperCase(),
+            participant_name: participantName,
+          })
 
-    const { data, error: rpcError } = await rpc
-    setLoading(false)
+      const { data, error: rpcError } = await rpc
 
-    if (rpcError) {
-      setError(rpcError.message.includes('Room not found')
-        ? 'We could not find that room. Check the code and try again.'
-        : rpcError.message)
-      return
+      if (rpcError) {
+        setError(rpcError.message.includes('Room not found')
+          ? 'We could not find that room. Check the code and try again.'
+          : rpcError.message)
+        return
+      }
+
+      const result = data?.[0]
+      if (!result) {
+        setError('Something went wrong creating your room.')
+        return
+      }
+
+      const nextSession = {
+        roomToken: result.room_token,
+        participantToken: result.participant_token,
+        participantName,
+      }
+
+      localStorage.setItem('name-duet-session', JSON.stringify(nextSession))
+      setSession(nextSession)
+      closeModal()
+    } catch {
+      setError('We could not reach Name Duet. Please try again.')
+    } finally {
+      setLoading(false)
     }
-
-    const result = data?.[0]
-    if (!result) {
-      setError('Something went wrong creating your room.')
-      return
-    }
-
-    const nextSession = {
-      roomToken: result.room_token,
-      participantToken: result.participant_token,
-      participantName,
-    }
-
-    localStorage.setItem('name-duet-session', JSON.stringify(nextSession))
-    setSession(nextSession)
-    closeModal()
   }
 
   const copyInvite = async () => {
@@ -116,7 +133,7 @@ export default function App() {
           <span className="brandMark">N</span>
           <span>Name Duet</span>
         </a>
-        <span className="status">Private beta</span>
+        <span className="status">Connected beta</span>
       </nav>
 
       <section className="hero">
@@ -126,8 +143,8 @@ export default function App() {
           Compare baby names independently, then watch Name Duet uncover the favorites you share.
         </p>
         <div className="actions">
-          <button className="primary" type="button" onClick={() => setMode('create')}>Create your room</button>
-          <button className="secondary" type="button" onClick={() => setMode('join')}>Join with a code</button>
+          <button className="primary" type="button" onClick={() => openModal('create')}>Create your room</button>
+          <button className="secondary" type="button" onClick={() => openModal('join')}>Join with a code</button>
         </div>
         <p className="finePrint">No account required. Your room stays private.</p>
       </section>
