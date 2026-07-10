@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-const fallbackUrl = 'https://qobauughkvimlppuldc.supabase.co'
+const fallbackUrl = 'https://qobauughkvimlippuldc.supabase.co'
 const fallbackKey = 'sb_publishable_nC3Uuhi-8ak5GwK9qwHAOA_6ll_vBxQ'
 
 const configuredUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || fallbackUrl
