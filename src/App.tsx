@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react'
-import { BarChart3, Copy, Heart, LogOut, Sparkles, Users } from 'lucide-react'
+import { BarChart3, Copy, Heart, LogOut, Smartphone, Sparkles, Users } from 'lucide-react'
 import { supabase } from './lib/supabase'
 
 type Mode = 'create' | 'join' | null
@@ -31,10 +31,17 @@ function loadSavedSession(): RoomSession | null {
   }
 }
 
+function getMessage(caught: unknown, fallback: string) {
+  if (caught instanceof Error) return caught.message
+  if (caught && typeof caught === 'object' && 'message' in caught && typeof caught.message === 'string') return caught.message
+  return fallback
+}
+
 export default function App() {
+  const initialParams = new URLSearchParams(window.location.search)
   const [mode, setMode] = useState<Mode>(null)
   const [name, setName] = useState('')
-  const [roomCode, setRoomCode] = useState(() => new URLSearchParams(window.location.search).get('room') ?? '')
+  const [roomCode, setRoomCode] = useState(() => initialParams.get('room') ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [session, setSession] = useState<RoomSession | null>(loadSavedSession)
@@ -43,6 +50,7 @@ export default function App() {
   const [rankings, setRankings] = useState<Ranking[]>([])
   const [consensus, setConsensus] = useState<ConsensusRow[]>([])
   const [copied, setCopied] = useState(false)
+  const [deviceCopied, setDeviceCopied] = useState(false)
 
   const openForm = (nextMode: Exclude<Mode, null>) => { setError(''); setMode(nextMode) }
 
@@ -65,9 +73,43 @@ export default function App() {
       if (pairError) throw pairError
       setPair((data?.[0] as Pair | undefined) ?? null)
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Could not load the next pair.')
+      setError(getMessage(caught, 'Could not load the next pair.'))
     } finally { setLoading(false) }
   }, [])
+
+  useEffect(() => {
+    if (session) return
+    const params = new URLSearchParams(window.location.search)
+    const deviceCode = params.get('device')
+    const restoreRoom = params.get('room')
+    if (!deviceCode || !restoreRoom) return
+
+    const restore = async () => {
+      setLoading(true); setError('')
+      try {
+        const { data, error: restoreError } = await supabase.rpc('redeem_device_link', {
+          p_room_token: restoreRoom,
+          p_device_code: deviceCode,
+        })
+        if (restoreError) throw restoreError
+        const result = data?.[0]
+        if (!result) throw new Error('This device link is invalid or expired.')
+        const restoredSession = {
+          roomToken: result.room_token,
+          participantToken: result.participant_token,
+          participantName: result.participant_name,
+        }
+        localStorage.setItem('name-duet-session', JSON.stringify(restoredSession))
+        window.history.replaceState({}, document.title, window.location.pathname)
+        setSession(restoredSession)
+      } catch (caught) {
+        setError(getMessage(caught, 'This device link could not be opened.'))
+        setMode('join')
+      } finally { setLoading(false) }
+    }
+
+    void restore()
+  }, [session])
 
   useEffect(() => {
     if (!session) return
@@ -102,8 +144,10 @@ export default function App() {
       localStorage.setItem('name-duet-session', JSON.stringify(nextSession))
       setSession(nextSession); setMode(null)
     } catch (caught) {
-      const message = caught instanceof Error ? caught.message : 'We could not reach Name Duet.'
-      setError(message.includes('Room not found') ? 'We could not find that room. Check the code and try again.' : message)
+      const message = getMessage(caught, 'We could not reach Name Duet.')
+      if (message.includes('Room not found')) setError('We could not find that room. Check the code and try again.')
+      else if (message.includes('duplicate key')) setError(`${participantName} is already in this room. Ask them for their private device link.`)
+      else setError(message)
     } finally { setLoading(false) }
   }
 
@@ -120,7 +164,7 @@ export default function App() {
       if (voteError) throw voteError
       await Promise.all([loadPair(session.participantToken), loadRankings(session.participantToken)])
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Your choice could not be saved.')
+      setError(getMessage(caught, 'Your choice could not be saved.'))
       setLoading(false)
     }
   }
@@ -129,6 +173,23 @@ export default function App() {
     if (!session) return
     await navigator.clipboard.writeText(`${window.location.origin}/?room=${session.roomToken}`)
     setCopied(true); window.setTimeout(() => setCopied(false), 1800)
+  }
+
+  const copyDeviceLink = async () => {
+    if (!session) return
+    setError('')
+    try {
+      const { data, error: linkError } = await supabase.rpc('create_device_link', {
+        p_access_token: session.participantToken,
+      })
+      if (linkError) throw linkError
+      const code = data?.[0]?.device_code
+      if (!code) throw new Error('Could not create a device link.')
+      await navigator.clipboard.writeText(`${window.location.origin}/?room=${session.roomToken}&device=${code}`)
+      setDeviceCopied(true); window.setTimeout(() => setDeviceCopied(false), 2200)
+    } catch (caught) {
+      setError(getMessage(caught, 'Could not create a device link.'))
+    }
   }
 
   const leaveRoom = () => {
@@ -149,7 +210,11 @@ export default function App() {
         <section className="workspace">
           <header className="workspaceHeader">
             <div><span className="eyebrow"><Sparkles size={15} /> {session.participantName}'s duet</span><h1 className="workspaceTitle">Which name feels right?</h1><p>Trust your first reaction. The rankings get smarter with every choice.</p></div>
-            <div className="roomActions"><button className="secondary compactButton" type="button" onClick={copyInvite}><Copy size={17} /> {copied ? 'Copied!' : 'Invite partner'}</button><button className="ghostButton" type="button" onClick={leaveRoom} aria-label="Leave room"><LogOut size={18} /></button></div>
+            <div className="roomActions">
+              <button className="secondary compactButton" type="button" onClick={copyInvite}><Copy size={17} /> {copied ? 'Copied!' : 'Invite partner'}</button>
+              <button className="secondary compactButton" type="button" onClick={copyDeviceLink}><Smartphone size={17} /> {deviceCopied ? 'Private link copied!' : `Open as ${session.participantName} elsewhere`}</button>
+              <button className="ghostButton" type="button" onClick={leaveRoom} aria-label="Leave room"><LogOut size={18} /></button>
+            </div>
           </header>
 
           <div className="viewTabs" role="tablist">
