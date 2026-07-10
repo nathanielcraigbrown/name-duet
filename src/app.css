@@ -1,0 +1,50 @@
+.appShell { min-height: 100vh; }
+.workspace { margin: 64px auto 0; max-width: 980px; }
+.workspaceHeader { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; margin-bottom: 28px; }
+.workspaceHeader p { margin: 12px 0 0; color: #786d67; line-height: 1.5; }
+.workspaceTitle { margin: 12px 0 0; font-size: clamp(38px, 6vw, 64px); }
+.roomActions { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.compactButton { min-height: 44px; padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(47,41,38,.13); display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
+.ghostButton { width: 44px; min-height: 44px; border: 1px solid rgba(47,41,38,.12); border-radius: 12px; background: rgba(255,255,255,.45); color: #716761; display: grid; place-items: center; }
+.viewTabs { display: flex; gap: 8px; margin-bottom: 22px; padding: 5px; border: 1px solid rgba(47,41,38,.1); border-radius: 16px; background: rgba(255,255,255,.45); width: max-content; max-width: 100%; }
+.viewTabs button { min-height: 42px; padding: 9px 14px; border: 0; border-radius: 11px; background: transparent; color: #716761; display: inline-flex; align-items: center; gap: 7px; font-weight: 600; }
+.viewTabs button.active { background: #fff; color: #352d29; box-shadow: 0 6px 18px rgba(65,50,42,.09); }
+.appError { margin: 0 0 16px; padding: 12px 14px; border-radius: 12px; background: rgba(163,63,54,.08); }
+.comparisonStage, .rankingPanel { padding: clamp(20px, 4vw, 36px); border: 1px solid rgba(47,41,38,.1); border-radius: 28px; background: rgba(255,255,255,.58); box-shadow: 0 26px 70px rgba(73,55,46,.09); }
+.comparisonMeta { display: flex; justify-content: space-between; gap: 12px; color: #897c75; font-size: 13px; margin-bottom: 22px; }
+.liveCards { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 16px; transition: opacity .18s ease; }
+.liveCards.isLoading { opacity: .55; }
+.choiceCard { min-height: 310px; padding: 28px; border: 1px solid rgba(47,41,38,.08); border-radius: 24px; background: #ede3d7; color: #2f2926; display: flex; flex-direction: column; justify-content: space-between; text-align: left; }
+.choiceCard.alternate { background: #e4d4ce; }
+.choiceCard:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(73,55,46,.1); }
+.choiceCard strong { font-family: Georgia, serif; font-size: clamp(42px, 6vw, 68px); font-weight: 500; overflow-wrap: anywhere; }
+.choiceHint { color: #89776f; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.orBadge { align-self: center; color: #9b8f89; font-family: Georgia, serif; font-style: italic; }
+.loadingCard { min-height: 260px; display: grid; place-items: center; color: #8e817b; }
+.rankingHeader { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
+.rankingRow, .consensusRow { display: grid; grid-template-columns: 42px minmax(0,1fr) auto; align-items: center; gap: 14px; min-height: 64px; padding: 10px 6px; border-top: 1px solid rgba(47,41,38,.08); }
+.rankNumber { color: #9a6a63; font-weight: 600; font-variant-numeric: tabular-nums; }
+.record { color: #8a7c75; font-size: 13px; }
+.emptyState { padding: 28px 8px; color: #81746e; line-height: 1.55; text-align: center; }
+.consensusName { min-width: 0; display: grid; gap: 3px; }
+.consensusName strong { font-size: 18px; }
+.consensusName small { color: #a0766e; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+.duetRanks { display: grid; justify-items: end; gap: 3px; color: #756b66; font-size: 12px; white-space: nowrap; }
+
+@media (max-width: 720px) {
+  .workspace { margin-top: 42px; }
+  .workspaceHeader { display: grid; align-items: start; margin-bottom: 20px; }
+  .workspaceTitle { font-size: 42px; line-height: 1.02; }
+  .roomActions { width: 100%; }
+  .roomActions .compactButton { flex: 1; }
+  .viewTabs { width: 100%; overflow-x: auto; }
+  .viewTabs button { flex: 1 0 auto; justify-content: center; padding-inline: 11px; }
+  .comparisonStage, .rankingPanel { padding: 18px 14px; border-radius: 22px; }
+  .comparisonMeta { font-size: 12px; }
+  .liveCards { grid-template-columns: 1fr; gap: 10px; }
+  .choiceCard { min-height: 190px; padding: 22px; }
+  .choiceCard strong { font-size: clamp(40px, 13vw, 58px); }
+  .orBadge { justify-self: center; }
+  .rankingRow, .consensusRow { grid-template-columns: 34px minmax(0,1fr) auto; gap: 9px; }
+  .duetRanks { font-size: 11px; }
+}
