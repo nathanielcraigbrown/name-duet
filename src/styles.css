@@ -12,6 +12,7 @@
 body { margin: 0; min-width: 320px; min-height: 100vh; }
 button, input { font: inherit; }
 button { cursor: pointer; }
+button:disabled { cursor: wait; opacity: .65; }
 
 .shell {
   width: min(1120px, calc(100% - 32px));
@@ -54,7 +55,7 @@ button { cursor: pointer; }
   background: rgba(255,255,255,.45);
 }
 
-.hero {
+.hero, .roomWelcome {
   max-width: 760px;
   margin: 96px auto 72px;
   text-align: center;
@@ -99,7 +100,7 @@ h1 em {
   margin-top: 34px;
 }
 
-.actions button, .nameCard button {
+.actions button, .nameCard button, .modalSubmit, .inviteCard button {
   border-radius: 14px;
   padding: 14px 20px;
   border: 1px solid transparent;
@@ -166,9 +167,73 @@ h2 { margin: 7px 0 0; font-size: clamp(25px, 4vw, 38px); letter-spacing: -.035em
 .features h3 { margin: 14px 0 8px; }
 .features p { margin: 0; color: #786d67; line-height: 1.55; }
 
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(47, 41, 38, .38);
+  backdrop-filter: blur(8px);
+}
+
+.modal {
+  position: relative;
+  width: min(470px, 100%);
+  padding: 36px;
+  border-radius: 26px;
+  background: #fbf7f1;
+  box-shadow: 0 30px 100px rgba(47,41,38,.26);
+}
+
+.modalClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  color: #655b56;
+  background: rgba(47,41,38,.06);
+}
+
+.modal h2 { margin-bottom: 26px; }
+.modal form { display: grid; gap: 18px; }
+.modal label { display: grid; gap: 8px; color: #655b56; font-size: 13px; font-weight: 600; }
+.modal input {
+  width: 100%;
+  padding: 15px 16px;
+  border: 1px solid rgba(47,41,38,.14);
+  border-radius: 13px;
+  outline: none;
+  color: #2f2926;
+  background: white;
+}
+.modal input:focus { border-color: #8a5c55; box-shadow: 0 0 0 3px rgba(138,92,85,.12); }
+.modalSubmit { width: 100%; margin-top: 2px; }
+.formError { margin: -4px 0 0; color: #a33f36; font-size: 13px; line-height: 1.4; }
+
+.inviteCard {
+  width: min(440px, 100%);
+  margin: 34px auto 0;
+  padding: 28px;
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(47,41,38,.1);
+  border-radius: 24px;
+  background: rgba(255,255,255,.62);
+  box-shadow: 0 22px 60px rgba(73,55,46,.1);
+}
+.inviteCard span { color: #8a7c75; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+.inviteCard strong { font-family: Georgia, serif; font-size: 42px; letter-spacing: .08em; }
+
 @media (max-width: 720px) {
   .shell { width: min(100% - 20px, 680px); padding-top: 14px; }
-  .hero { margin: 70px auto 52px; }
+  .hero, .roomWelcome { margin: 70px auto 52px; }
   .actions { flex-direction: column; }
   .actions button { width: 100%; }
   .cards { grid-template-columns: 1fr; }
@@ -177,4 +242,5 @@ h2 { margin: 7px 0 0; font-size: clamp(25px, 4vw, 38px); letter-spacing: -.035em
   .features { grid-template-columns: 1fr; }
   .previewHeader { align-items: center; }
   .counter { white-space: nowrap; }
+  .modal { padding: 30px 22px 24px; }
 }
