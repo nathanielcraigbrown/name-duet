@@ -1,4 +1,10 @@
 @media (max-width: 720px) {
+  .comparisonStage {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
   .liveCards {
     background: transparent !important;
     box-shadow: none !important;
