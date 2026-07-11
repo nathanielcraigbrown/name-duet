@@ -8,6 +8,7 @@ type View = 'compare' | 'rankings' | 'consensus'
 type RoomSession = { roomToken: string; participantToken: string; participantName: string }
 type Pair = { left_id: number; left_name: string; right_id: number; right_name: string; comparison_count: number }
 type Ranking = { rank_position: number; name_id: number; display_name: string; rating: number; wins: number; losses: number; comparisons: number }
+type DisplayRanking = Ranking & { displayRank: number; roundedScore: number }
 type ConsensusRow = {
   name_id: number
   display_name: string
@@ -21,7 +22,7 @@ type ConsensusRow = {
   rank_gap: number
 }
 
-type RankingTier = { label: string; description: string; rows: Ranking[] }
+type RankingTier = { label: string; description: string; rows: DisplayRanking[] }
 
 function loadSavedSession(): RoomSession | null {
   try {
@@ -55,11 +56,25 @@ function formatPreferenceScore(rating: number) {
   return score > 0 ? `+${score}` : `${score}`
 }
 
-function getRankingTiers(rankings: Ranking[]): RankingTier[] {
+function getDisplayRankings(rankings: Ranking[]): DisplayRanking[] {
+  let displayRank = 0
+  let previousScore: number | null = null
+
+  return rankings.map((item) => {
+    const roundedScore = Math.round(item.rating - 1500)
+    if (previousScore === null || roundedScore !== previousScore) {
+      displayRank += 1
+      previousScore = roundedScore
+    }
+    return { ...item, displayRank, roundedScore }
+  })
+}
+
+function getRankingTiers(rankings: DisplayRanking[]): RankingTier[] {
   return [
-    { label: 'Favorites', description: 'Your strongest current signals', rows: rankings.slice(0, 5) },
-    { label: 'Strong contenders', description: 'Names still pressing the leaders', rows: rankings.slice(5, 15) },
-    { label: 'Still in play', description: 'Promising names that need more matchups', rows: rankings.slice(15, 25) },
+    { label: 'Favorites', description: 'Your strongest current signals', rows: rankings.filter((item) => item.displayRank <= 5) },
+    { label: 'Strong contenders', description: 'Names still pressing the leaders', rows: rankings.filter((item) => item.displayRank >= 6 && item.displayRank <= 15) },
+    { label: 'Still in play', description: 'Promising names that need more matchups', rows: rankings.filter((item) => item.displayRank >= 16 && item.displayRank <= 25) },
   ].filter((tier) => tier.rows.length)
 }
 
@@ -81,7 +96,7 @@ export default function App() {
   const openForm = (nextMode: Exclude<Mode, null>) => { setError(''); setMode(nextMode) }
 
   const loadRankings = useCallback(async (participantToken: string) => {
-    const { data, error: rankingError } = await supabase.rpc('get_my_rankings', { p_access_token: participantToken, p_limit: 25 })
+    const { data, error: rankingError } = await supabase.rpc('get_my_rankings', { p_access_token: participantToken, p_limit: 50 })
     if (rankingError) throw rankingError
     setRankings((data ?? []) as Ranking[])
   }, [])
@@ -228,10 +243,12 @@ export default function App() {
     const two = consensus[0]?.participant_two_name
     const left = pair ? splitNameDetails(pair.left_name) : null
     const right = pair ? splitNameDetails(pair.right_name) : null
-    const rankingTiers = getRankingTiers(rankings)
-    const topRating = rankings[0]?.rating ?? 1500
-    const fifthRating = rankings[4]?.rating ?? topRating
-    const rankingStatus = rankings[0]?.comparisons >= 8 ? 'Leaders are stabilizing' : 'Top ranking is still settling'
+    const displayRankings = getDisplayRankings(rankings)
+    const visibleRankings = displayRankings.filter((item) => item.displayRank <= 25)
+    const rankingTiers = getRankingTiers(visibleRankings)
+    const topRating = visibleRankings[0]?.rating ?? 1500
+    const fifthDistinctRating = visibleRankings.find((item) => item.displayRank === 5)?.rating ?? topRating
+    const rankingStatus = visibleRankings[0]?.comparisons >= 8 ? 'Leaders are stabilizing' : 'Top ranking is still settling'
 
     return (
       <main className="shell appShell">
@@ -266,7 +283,6 @@ export default function App() {
                   <strong className="choiceName">{left.displayName}</strong>
                   {left.details && <span className="choiceDetails">{left.details}</span>}
                 </button>
-                <span className="orBadge">or</span>
                 <button className="choiceCard alternate" type="button" disabled={loading} onClick={() => vote(pair.right_id)}>
                   <strong className="choiceName">{right.displayName}</strong>
                   {right.details && <span className="choiceDetails">{right.details}</span>}
@@ -278,19 +294,19 @@ export default function App() {
           {view === 'rankings' && (
             <section className="rankingPanel">
               <div className="rankingHeader"><div><span className="kicker">Your current taste</span><h2>Top names</h2></div><span className="counter">{pair?.comparison_count ?? 0} votes</span></div>
-              {rankings.length ? <>
+              {visibleRankings.length ? <>
                 <div className="resultSummary">
-                  <div><strong>{rankings.length}</strong><span>leaders shown</span></div>
+                  <div><strong>{visibleRankings.length}</strong><span>leaders shown</span></div>
                   <div><strong>{formatPreferenceScore(topRating)}</strong><span>top preference score</span></div>
-                  <div><strong>{Math.max(0, Math.round(topRating - fifthRating))}</strong><span>points across top 5</span></div>
+                  <div><strong>{Math.max(0, Math.round(topRating - fifthDistinctRating))}</strong><span>points across top 5 ranks</span></div>
                 </div>
-                <p className="rankingStatus">{rankingStatus}. Preference scores start at 0 and rise or fall as names win and lose.</p>
+                <p className="rankingStatus">{rankingStatus}. Equal displayed scores share the same rank and stay in the same tier.</p>
                 {rankingTiers.map((tier) => (
                   <section className="tierSection" key={tier.label}>
                     <div className="tierHeading"><div><h3>{tier.label}</h3><p>{tier.description}</p></div></div>
                     {tier.rows.map((item) => (
                       <article className="rankingRow" key={item.name_id}>
-                        <span className="rankNumber">{item.rank_position}</span>
+                        <span className="rankNumber">{item.displayRank}</span>
                         <div className="rankingMain">
                           <strong>{item.display_name}</strong>
                           <span className="rankingMeta">{formatPreferenceScore(item.rating)} preference · {item.wins}–{item.losses} · {item.comparisons} matchups</span>
