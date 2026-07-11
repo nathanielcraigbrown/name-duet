@@ -68,8 +68,8 @@
   .progressTrack { height: 5px; }
   .rankingPanel { flex: 1 1 0; overflow-y: auto; overflow-x: hidden; position: relative; z-index: 1; margin-top: 0; }
   .comparisonMeta { margin-bottom: 7px; font-size: 9px; flex: 0 0 auto; }
-  .liveCards { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 10px; padding-bottom: 18px; overflow: hidden; }
-  .choiceCard, .choiceCard.alternate { flex: 1 1 0; width: 100%; height: auto; min-height: 0; margin: 0; padding: 12px 16px; border-radius: 22px; gap: 7px; overflow: hidden; transform: none; }
+  .liveCards { flex: 1 1 0; min-height: 0; height: 100%; display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; padding-bottom: 18px; overflow: hidden; }
+  .choiceCard, .choiceCard.alternate { width: 100%; height: 100%; min-height: 0; max-height: 100%; margin: 0; padding: 12px 16px; border-radius: 22px; gap: 7px; overflow: hidden; transform: none; }
   .choiceCard.alternate { border-radius: 24px; }
   .choiceCard:hover { transform: none; }
   .choiceName { font-size: clamp(34px, 11vw, 52px); }
