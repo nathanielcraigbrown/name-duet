@@ -14,4 +14,20 @@
   .choiceCard.alternate {
     box-shadow: none !important;
   }
+
+  .choiceName {
+    max-width: 56% !important;
+    font-size: clamp(42px, 9vw, 66px) !important;
+    line-height: .92 !important;
+    white-space: nowrap !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .choiceName {
+    max-width: 54% !important;
+    font-size: clamp(36px, 10vw, 48px) !important;
+  }
 }
