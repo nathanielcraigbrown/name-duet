@@ -1,0 +1,95 @@
+.viewTabs:has([data-ssa-tab="true"]) {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ssaTabIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ssaPanel[hidden] {
+  display: none !important;
+}
+
+.ssaList {
+  border-top: 1px solid rgba(84,52,53,.12);
+}
+
+.ssaRow {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  min-height: 66px;
+  padding: 9px 6px;
+  border-bottom: 1px solid rgba(84,52,53,.09);
+}
+
+.ssaRow strong {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #332526;
+}
+
+.ssaRank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  min-height: 34px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: #6f4049;
+  background: #dca1a8;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ssaRank.isUnranked {
+  color: #806f6d;
+  background: rgba(128,111,109,.12);
+}
+
+@media (max-width: 720px) {
+  .viewTabs:has([data-ssa-tab="true"]) button {
+    gap: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 10px;
+  }
+
+  .ssaTabIcon {
+    width: 14px;
+    height: 14px;
+    font-size: 12px;
+  }
+
+  .ssaPanel {
+    padding-bottom: 0 !important;
+  }
+
+  .ssaRow {
+    grid-template-columns: 56px minmax(0, 1fr);
+    min-height: 62px;
+    gap: 12px;
+    padding: 8px 4px;
+  }
+
+  .ssaRow strong {
+    font-size: 22px;
+  }
+
+  .ssaRank {
+    min-width: 48px;
+    min-height: 31px;
+    font-size: 11px;
+  }
+}
