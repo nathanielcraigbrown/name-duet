@@ -64,11 +64,6 @@ function getProgressLabel(comparisons: number) {
   return 'Learning your taste'
 }
 
-function getProgressPercent(comparisons: number) {
-  if (comparisons <= 400) return Math.min(75, Math.round((comparisons / 400) * 75))
-  return Math.min(100, Math.round(75 + ((comparisons - 400) / 200) * 25))
-}
-
 function getDisplayRankings(rankings: Ranking[]): DisplayRanking[] {
   let displayRank = 0
   let previousScore: number | null = null
@@ -257,8 +252,8 @@ export default function App() {
     const left = pair ? splitNameDetails(pair.left_name) : null
     const right = pair ? splitNameDetails(pair.right_name) : null
     const comparisonCount = pair?.comparison_count ?? 0
-    const progressTarget = 600
-    const progressPercent = getProgressPercent(comparisonCount)
+    const progressTarget = comparisonCount >= 400 ? 600 : 400
+    const progressPercent = Math.min(100, Math.round((comparisonCount / progressTarget) * 100))
     const progressLabel = getProgressLabel(comparisonCount)
     const displayRankings = getDisplayRankings(rankings)
     const visibleRankings = displayRankings.filter((item) => item.displayRank <= 25)
