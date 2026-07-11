@@ -1,0 +1,11 @@
+@media (max-width: 720px) {
+  .liveCards {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .choiceCard,
+  .choiceCard.alternate {
+    box-shadow: none !important;
+  }
+}
