@@ -1,0 +1,146 @@
+pool_order,ssa_rank,display_name,origin,meaning,canonical_source_name,relationship_to_source,confidence,source_1,source_2,research_notes
+1,1,Olivia,English / Latin,olive; Shakespearean form,Olivia,original literary form,high,Behind the Name,Oxford Dictionary of English Christian Names,Shakespeare used the spelling; probably from Latin oliva or related forms.
+2,2,Charlotte,French / Germanic,free person,Charles,feminine form,high,Behind the Name,Oxford Dictionary of First Names,"French feminine diminutive of Charles, from a Germanic element meaning free person."
+3,3,Emma,Germanic,"whole, universal",Emma,original name,high,Behind the Name,Wiktionary,"From a Germanic element ermen meaning whole or universal."
+4,4,Amelia,Germanic / Latinized,work,Amalia,variant,high,Behind the Name,Oxford Dictionary of First Names,"English form related to Amalia, from Germanic amal meaning work."
+5,5,Sophia,Greek,wisdom,Sophia,original name,high,Behind the Name,Wiktionary,"From Greek sophia, wisdom."
+6,6,Mia,Scandinavian / Italian,mine; diminutive of Maria,Maria,diminutive,medium,Behind the Name,Wiktionary,"Used as a diminutive of Maria and independently; Italian mia also means mine."
+7,7,Isabella,Italian / Hebrew,my God is an oath,Elizabeth,variant,high,Behind the Name,Oxford Dictionary of First Names,"Italian form of Isabel, ultimately from Hebrew Elisheva."
+8,8,Evelyn,English / Norman French,desired; historically a surname form,Aveline,variant / surname transfer,medium,Behind the Name,Oxford Dictionary of First Names,"Developed from the Norman name Aveline and later an English surname."
+9,9,Sofia,Greek,wisdom,Sophia,variant,high,Behind the Name,Wiktionary,International spelling of Sophia.
+10,10,Eliana,Hebrew / Italian,my God has answered; also feminine of Eliano,Eliana,multiple origins,medium,Behind the Name,Wiktionary,"Hebrew and Romance traditions coexist; the common Hebrew interpretation is my God has answered."
+11,11,Ava,Germanic / Persian / modern English,possibly desired; voice or sound in Persian,Ava,multiple origins,medium,Behind the Name,Wiktionary,"Several independent origins are proposed; no single derivation is universal."
+12,12,Eleanor,Old French / Greek,meaning uncertain; traditionally linked to Helen,Aliénor,original medieval form,medium,Behind the Name,Oxford Dictionary of First Names,"Medieval French name of uncertain derivation, later associated with Helen."
+13,13,Violet,English / Latin,violet flower,Violet,vocabulary name,high,Behind the Name,Wiktionary,"From the flower name, ultimately Latin viola."
+14,14,Ailany,Modern American / Hawaiian-influenced,modern form; exact derivation uncertain,Ailani,modern variant,low,Behind the Name submitted names,SSA usage,"Rare modern spelling, commonly treated as a variant of Ailani or Kailani; exact formation is not firmly documented."
+15,15,Aurora,Latin,dawn,Aurora,original name,high,Behind the Name,Wiktionary,Latin word and Roman goddess of dawn.
+16,16,Harper,English,harp player,Harper,surname transfer,high,Behind the Name,Oxford Dictionary of Family Names,Transferred from an occupational surname.
+17,17,Elizabeth,Hebrew,my God is an oath,Elisheva,variant,high,Behind the Name,Wiktionary,From Hebrew Elisheva through Greek and Latin.
+18,18,Lily,English / Latin,lily flower,Lily,vocabulary name,high,Behind the Name,Wiktionary,"From the flower name, ultimately Latin lilium."
+19,19,Camila,Spanish / Portuguese / Latin,young ceremonial attendant,Camilla,variant,high,Behind the Name,Wiktionary,"Spanish and Portuguese form of Camilla, linked to Latin camillus."
+20,20,Nora,Irish / English / Latin,honor; light,Honora / Eleanor,diminutive / multiple origins,medium,Behind the Name,Oxford Dictionary of First Names,"Used as a short form of Honora or Eleanor; meanings vary by source line."
+21,21,Hazel,English,hazel tree,Hazel,vocabulary name,high,Behind the Name,Wiktionary,From the English tree and color word.
+22,22,Penelope,Greek,meaning uncertain; traditionally associated with weaving,Penelope,original name,medium,Behind the Name,Wiktionary,"Ancient Greek name of disputed etymology; literary association with the faithful weaver in the Odyssey."
+23,23,Chloe,Greek,green shoot,Chloe,original name,high,Behind the Name,Wiktionary,"From Greek khloē, a young green shoot."
+24,24,Ellie,English,short form of Eleanor; Ellen; Elizabeth and related names,Eleanor / Ellen / Elizabeth,diminutive,high,Behind the Name,Oxford Dictionary of First Names,Established English diminutive with several source names.
+25,25,Lucy,English / Latin,light,Lucia,variant,high,Behind the Name,Wiktionary,"English form of Lucia, from Latin lux, light."
+26,26,Aria,Italian / Hebrew / Persian,air or melody; lioness; noble,Aria,multiple origins,medium,Behind the Name,Wiktionary,"Independent musical, Hebrew and Persian derivations exist."
+27,27,Luna,Latin,moon,Luna,original / vocabulary name,high,Behind the Name,Wiktionary,Latin word for moon and Roman moon goddess.
+28,28,Isla,Scottish / Spanish,island; also a Scottish river name,Isla,place / vocabulary name,medium,Behind the Name,Wiktionary,"Modern use is associated with the Scottish River Isla and Spanish isla, island."
+29,29,Ella,Germanic / English,other; also a short form of several names,Ella,original / diminutive,medium,Behind the Name,Oxford Dictionary of First Names,Old Germanic name element and later diminutive usage overlap.
+30,30,Lainey,English,"bright, shining one",Elaine,diminutive / variant,medium,Behind the Name,Wiktionary,"Modern diminutive of Elaine; sometimes also used from surname Laine."
+31,31,Zoe,Greek,life,Zoe,original name,high,Behind the Name,Wiktionary,"From Greek zōē, life."
+32,32,Scarlett,English,scarlet cloth or color,Scarlett,surname / vocabulary transfer,high,Behind the Name,Oxford Dictionary of Family Names,"From an occupational surname for a seller of scarlet cloth, later associated with the color."
+33,33,Gianna,Italian / Hebrew,God is gracious,Giovanna,diminutive,high,Behind the Name,Wiktionary,"Italian short form of Giovanna, ultimately from Hebrew Yohanan."
+34,34,Emily,English / Latin,rival; emulating,Aemilia,variant,high,Behind the Name,Oxford Dictionary of First Names,"English form of Aemilia, from the Roman family name Aemilius."
+35,35,Valentina,Latin,"strong, healthy",Valentinus,feminine form,high,Behind the Name,Wiktionary,"Feminine form of Valentine, from Latin valens."
+36,36,Layla,Arabic,night,Layla,original name,high,Behind the Name,Wiktionary,"From Arabic layl, night."
+37,37,Avery,English / Germanic,elf ruler,Alberich,surname transfer,high,Behind the Name,Oxford Dictionary of Family Names,From an English surname derived from Norman forms of Alberich or Alfred.
+38,38,Grace,English / Latin,"grace, favor",Grace,virtue name,high,Behind the Name,Wiktionary,English virtue name from Latin gratia.
+39,39,Ivy,English,ivy plant,Ivy,vocabulary name,high,Behind the Name,Wiktionary,From the English plant name.
+40,40,Madison,English,son of Maud or Matthew,Madison,surname transfer,medium,Behind the Name,Oxford Dictionary of Family Names,"Transferred surname; competing patronymic derivations are recorded."
+41,41,Abigail,Hebrew,my father is joy,Avigayil,variant,high,Behind the Name,Wiktionary,From Hebrew Avigayil.
+42,42,Elena,Greek / Romance,torch; shining light,Helen,variant,medium,Behind the Name,Oxford Dictionary of First Names,"Romance and Slavic form of Helen; the ancient Greek root is debated but traditionally linked with light."
+43,43,Mila,Slavic,"gracious, dear",Mila,original / short form,high,Behind the Name,Wiktionary,"From Slavic milu, gracious or dear; also a short form of longer names."
+44,44,Willow,English,willow tree,Willow,vocabulary name,high,Behind the Name,Wiktionary,From the English tree name.
+45,45,Emilia,Latin,rival; emulating,Aemilia,variant,high,Behind the Name,Wiktionary,Feminine form of Aemilius through Latin and European usage.
+46,46,Nova,Latin / English,new; a star that suddenly brightens,Nova,vocabulary name,high,Behind the Name,Wiktionary,"Latin novus means new; astronomical nova is the modern vocabulary source."
+47,47,Naomi,Hebrew,pleasantness,Naomi,original name,high,Behind the Name,Wiktionary,"From Hebrew Na'omi, pleasantness."
+48,48,Riley,Irish / English,descendant of Raghallach; rye clearing,Riley,surname transfer / multiple origins,medium,Behind the Name,Oxford Dictionary of Family Names,Irish and English surname origins coexist.
+49,49,Eloise,French / Germanic,healthy; wide,Heloise,variant,medium,Behind the Name,Oxford Dictionary of First Names,"French form of Heloise; exact Germanic elements are debated."
+50,50,Sadie,English / Hebrew,princess,Sarah,diminutive,high,Behind the Name,Oxford Dictionary of First Names,English diminutive of Sarah.
+51,51,Delilah,Hebrew,"delicate, languishing",Delilah,original name,medium,Behind the Name,Wiktionary,"Biblical Hebrew name; exact nuance is debated."
+52,52,Stella,Latin,star,Stella,original / vocabulary name,high,Behind the Name,Wiktionary,Latin word for star.
+53,53,Josephine,French / Hebrew,God will add,Joseph,feminine form,high,Behind the Name,Oxford Dictionary of First Names,French feminine form of Joseph.
+54,54,Victoria,Latin,victory,Victoria,original name,high,Behind the Name,Wiktionary,Latin word and Roman goddess of victory.
+55,55,Sophie,French / Greek,wisdom,Sophia,variant,high,Behind the Name,Wiktionary,French form of Sophia.
+56,56,Hannah,Hebrew,"favor, grace",Channah,variant,high,Behind the Name,Wiktionary,From Hebrew Channah.
+57,57,Lillian,English / Latin,lily,Lillian,original / elaboration,medium,Behind the Name,Oxford Dictionary of First Names,"Often associated with Lily and Latin lilium; historical formation may also relate to Elizabeth diminutives."
+58,58,Leah,Hebrew,meaning uncertain; traditionally weary,Leah,original name,medium,Behind the Name,Wiktionary,"Biblical Hebrew name of uncertain etymology, traditionally interpreted as weary."
+59,59,Adeline,French / Germanic,noble,Adela,diminutive,high,Behind the Name,Oxford Dictionary of First Names,"French diminutive of Adela, from Germanic adal, noble."
+60,60,Leilani,Hawaiian,heavenly flowers; royal child,Leilani,original name,high,Behind the Name,Hawaiian dictionaries,"From Hawaiian lei and lani; lani can mean heaven, sky, royal or majestic."
+61,61,Iris,Greek,rainbow,Iris,original name,high,Behind the Name,Wiktionary,Greek word for rainbow and messenger goddess.
+62,62,Maya,Multiple origins,illusion; good mother; water,Maya,multiple origins,medium,Behind the Name,Wiktionary,"Established independently in Sanskrit, Greek, Hebrew and other traditions."
+63,63,Clara,Latin,"bright, clear",Clarus,feminine form,high,Behind the Name,Wiktionary,Feminine form of Latin clarus.
+64,64,Ruby,English / Latin,red gemstone,Ruby,gemstone name,high,Behind the Name,Wiktionary,"From the gemstone, ultimately Latin ruber, red."
+65,65,Alice,French / Germanic,noble,Adalheidis,variant,high,Behind the Name,Oxford Dictionary of First Names,From Old French forms of the Germanic name Adelaide.
+66,66,Genesis,Greek,"origin, birth",Genesis,vocabulary / biblical name,high,Behind the Name,Wiktionary,"From Greek genesis, origin or birth, and the biblical book title."
+67,67,Paisley,Scottish / English,from the Scottish place and textile pattern,Paisley,place / surname transfer,high,Behind the Name,Oxford Dictionary of British Place Names,"Transferred from the Scottish place name and surname; modern association with the pattern."
+68,68,Claire,French / Latin,"bright, clear",Clara,variant,high,Behind the Name,Wiktionary,French form of Clara.
+69,69,Zoey,English / Greek,life,Zoe,variant,high,Behind the Name,Wiktionary,English spelling variant of Zoe.
+70,70,Eden,Hebrew,delight,Eden,biblical place name,high,Behind the Name,Wiktionary,"From Hebrew eden, delight, and the biblical garden."
+71,71,Madelyn,English / French / Hebrew,from Magdala,Madeline,variant,high,Behind the Name,Oxford Dictionary of First Names,"Modern English spelling of Madeline, ultimately from Magdalene, woman from Magdala."
+72,72,Vivian,Latin,alive,Vivianus,variant,high,Behind the Name,Wiktionary,"From Latin Vivianus, derived from vivus, alive."
+73,73,Millie,English,gentle strength; work; or industrious,Millicent / Mildred / Amelia,diminutive,medium,Behind the Name,Oxford Dictionary of First Names,Established diminutive of several names with different roots.
+74,74,Emery,English / Germanic,"brave, powerful",Emery,surname transfer,medium,Behind the Name,Oxford Dictionary of Family Names,"From a surname based on the Germanic name Emmerich; interpretation of elements varies."
+75,75,Daisy,English,daisy flower; day's eye,Daisy,flower name,high,Behind the Name,Wiktionary,"From the flower name, historically day's eye."
+76,76,Maeve,Irish,intoxicating,Medb,variant,high,Behind the Name,Dictionary of the Irish Language,Anglicized form of Old Irish Medb.
+77,77,Ayla,Turkish / Hebrew,moonlight or halo; oak tree,Ayla,multiple origins,medium,Behind the Name,Wiktionary,Independent Turkish and Hebrew origins are recognized.
+78,78,Liliana,Latin / European,lily,Lily / Lilia,elaboration,medium,Behind the Name,Wiktionary,"European elaboration of Lilia or Lily, associated with Latin lilium."
+79,79,Melody,English / Greek,"song, melody",Melody,vocabulary name,high,Behind the Name,Wiktionary,"From English melody, ultimately Greek melōidia."
+80,80,Lyla,English / Arabic-influenced,night; modern variant of Lila or Layla,Lila / Layla,variant,medium,Behind the Name,Wiktionary,"Modern spelling used for Lila or Layla; exact lineage varies by family."
+81,81,Madeline,English / French / Hebrew,from Magdala,Madeleine,variant,high,Behind the Name,Oxford Dictionary of First Names,"English form of French Madeleine, ultimately Magdalene."
+82,82,Josie,English / Hebrew,God will add,Josephine,diminutive,high,Behind the Name,Oxford Dictionary of First Names,English diminutive of Josephine.
+83,83,Lucia,Latin,light,Lucia,original name,high,Behind the Name,Wiktionary,"Feminine form of Lucius, traditionally linked to Latin lux, light."
+84,84,Addison,English,son of Adam,Addison,surname transfer,high,Behind the Name,Oxford Dictionary of Family Names,Transferred patronymic surname.
+85,85,Kennedy,Irish,descendant of Cennétig; helmeted or misshapen head,Kennedy,surname transfer,medium,Behind the Name,Oxford Dictionary of Family Names,"Transferred Irish surname; literal interpretation of the Gaelic elements is unflattering and debated."
+86,86,Audrey,English / Anglo-Saxon,noble strength,Æðelþryð,variant,high,Behind the Name,Oxford Dictionary of First Names,Medieval English form of Æðelþryð.
+87,87,Maria,Hebrew via Greek and Latin,meaning uncertain; traditionally beloved or bitter,Miriam,variant,medium,Behind the Name,Oxford Dictionary of First Names,"Form of Mary; the ancient Hebrew etymology is disputed."
+88,88,Autumn,English,autumn season,Autumn,season name,high,Behind the Name,Wiktionary,English season name from Latin autumnus.
+89,89,Natalie,French / Latin,Christmas Day; birth,Natalia,variant,high,Behind the Name,Oxford Dictionary of First Names,"French form of Natalia, from Latin natalis dies, birthday or Christmas Day."
+90,90,Sarah,Hebrew,princess,Sarah,original name,high,Behind the Name,Wiktionary,"From Hebrew sarah, princess."
+91,91,Everly,English,wild-boar clearing; transferred surname,Everly,surname transfer,medium,Behind the Name,Oxford Dictionary of Family Names,"Transferred English surname/place name; exact local derivation varies."
+92,92,Lydia,Greek,woman from Lydia,Lydia,ethnonym / place name,high,Behind the Name,Wiktionary,Ancient Greek ethnonym for a woman from Lydia in Asia Minor.
+93,93,Kinsley,English,king's clearing or royal meadow,Kinsley,surname / place transfer,medium,Behind the Name,Oxford Dictionary of Family Names,Transferred surname and place name from Old English elements.
+94,94,Sienna,Italian place / color,from Siena; reddish-brown earth pigment,Sienna,place / vocabulary name,high,Behind the Name,Wiktionary,"Named for Siena, Italy, and the pigment originally sourced there."
+95,95,Jade,Spanish / English,jade gemstone; stone of the side,Jade,gemstone name,high,Behind the Name,Wiktionary,"From the gemstone name, via Spanish piedra de ijada."
+96,96,Caroline,French / Germanic,free person,Charles,feminine form,high,Behind the Name,Oxford Dictionary of First Names,French feminine form of Charles.
+97,97,Quinn,Irish,descendant of Conn; chief or wisdom,Quinn,surname transfer,medium,Behind the Name,Oxford Dictionary of Family Names,"Transferred Irish surname from Ó Cuinn; interpretations of Conn vary."
+98,98,Amara,Multiple origins,grace; eternal; bitter,Amara,multiple origins,medium,Behind the Name,Wiktionary,"Independent Igbo, Sanskrit, Greek and other usages exist."
+99,99,Georgia,Greek,"farmer, earth-worker",George,feminine form,high,Behind the Name,Wiktionary,"Feminine form of George, from Greek geōrgos."
+100,100,Juniper,English / Latin,juniper tree,Juniper,botanical name,high,Behind the Name,Wiktionary,"From the evergreen plant name, ultimately Latin juniperus."
+101,,Aurelia,Latin,golden,Aurelius,feminine form,high,Behind the Name,Wiktionary,"Feminine form of Roman family name Aurelius, from aureus, golden."
+102,,Molly,English / Irish,meaning of Mary uncertain; traditionally beloved,Mary,diminutive,medium,Behind the Name,Oxford Dictionary of First Names,"Traditional diminutive of Mary; Mary's ancient etymology is disputed."
+103,,Sabina,Latin,Sabine woman,Sabinus,feminine form,high,Behind the Name,Wiktionary,"Feminine form of Sabinus, referring to the ancient Sabine people."
+104,,Sabine,French / German / Latin,of the Sabines,Sabina,variant,high,Behind the Name,Wiktionary,French and German form of Sabina.
+105,,Sabrina,Latinized Celtic / Welsh,name of the River Severn,Sabrina,place / legendary name,medium,Behind the Name,Oxford Dictionary of First Names,"Latin form of the River Severn name, associated with Welsh legend."
+106,,Corinne,French / Greek,maiden,Korinna,variant,high,Behind the Name,Wiktionary,"French form of Greek Korinna, from korē, maiden."
+107,,Ramona,Spanish / Germanic,wise protector,Raymond,feminine form,high,Behind the Name,Wiktionary,"Spanish feminine form of Ramón, from Germanic Raymond."
+108,,Lucille,French / Latin,light,Lucilla,variant,high,Behind the Name,Oxford Dictionary of First Names,"French form of Lucilla, diminutive of Lucia."
+109,,Marina,Latin,of the sea,Marinus,feminine form,high,Behind the Name,Wiktionary,"Feminine form of Marinus, from Latin marinus."
+110,,Leona,Latin,lioness,Leo,feminine form,high,Behind the Name,Wiktionary,"Feminine form based on Leo, lion."
+111,,Caledonia,Latin / Scottish place name,Scotland; land of the Caledonians,Caledonia,place name,high,Encyclopaedia Britannica,Wiktionary,"Roman Latin name for northern Britain, later a poetic name for Scotland."
+112,,Calliope,Greek,beautiful voice,Kalliope,original name,high,Behind the Name,Wiktionary,"From Greek kallos, beauty, and ops, voice; muse of epic poetry."
+113,,Euroletta,Rare literary / American usage,rare historic name; etymology unverified,Euroletta,uncertain,low,Historical records,SSA usage,"Documented as a rare historical personal name, but no reliable linguistic derivation has been established."
+114,,Celia,Latin / English,heavenly; also a literary short form,Caelia / Cecilia,multiple origins,medium,Behind the Name,Oxford Dictionary of First Names,"Can derive from Latin Caelia, heavenly, or function as a literary short form of Cecilia."
+115,,Phoebe,Greek,"bright, radiant",Phoibe,original name,high,Behind the Name,Wiktionary,"From Greek phoibos, bright or pure; an epithet and mythological name."
+116,,Skye,Scottish place name,Isle of Skye; exact place-name origin disputed,Skye,place name,medium,Behind the Name,Oxford Dictionary of British Place Names,"Transferred from the Scottish island; the island name's deeper etymology is disputed."
+117,,Summer,English,summer season,Summer,season name,high,Behind the Name,Wiktionary,English season name.
+118,,Helena,Greek,torch; shining light,Helen,variant,medium,Behind the Name,Oxford Dictionary of First Names,"Latin form of Helen; the ancient Greek derivation is uncertain but traditionally linked to light."
+119,,Denise,French / Greek,follower of Dionysus,Dennis,feminine form,high,Behind the Name,Wiktionary,"French feminine form of Denis, from Dionysios."
+120,,Liza,English / Hebrew,my God is an oath,Elizabeth,diminutive,high,Behind the Name,Oxford Dictionary of First Names,Short form of Elizabeth.
+121,,Shea,Irish,hawk-like; fortunate or stately interpretations vary,Shea,surname transfer,medium,Behind the Name Surnames,Oxford Dictionary of Family Names,"Transferred from Irish surname Ó Séaghdha; translations vary by source."
+122,,Faye,English / French,fairy,Faye,vocabulary / surname name,high,Behind the Name,Wiktionary,"From Middle English faie, fairy, via Old French."
+123,,Eliza,English / Hebrew,my God is an oath,Elizabeth,diminutive,high,Behind the Name,Oxford Dictionary of First Names,Short form of Elizabeth.
+124,,Juliet,English / French / Latin,youthful; of the Julian family,Julie / Julia,diminutive,medium,Behind the Name,Oxford Dictionary of First Names,"English form of French Juliette, ultimately from Julia; the root meaning is debated."
+125,,Cecilia,Latin,of the Caecilius family; traditionally blind,Caecilius,feminine form,medium,Behind the Name,Wiktionary,"Feminine of Roman Caecilius, traditionally associated with Latin caecus, blind."
+126,,Sylvie,French / Latin,of the forest,Silvia,variant,high,Behind the Name,Wiktionary,"French form of Silvia, from Latin silva, forest."
+127,,Margot,French / Greek,pearl,Margaret,diminutive,high,Behind the Name,Wiktionary,"French diminutive of Marguerite, ultimately Greek margarites, pearl."
+128,,Daphne,Greek,laurel,Daphne,original name,high,Behind the Name,Wiktionary,"From Greek daphnē, laurel; mythological nymph."
+129,,Nina,Multiple origins,little girl; grace; meaning varies,Nina,multiple origins,medium,Behind the Name,Wiktionary,"Independent usage in Spanish, Russian, Georgian, Hebrew and other traditions."
+130,,Louisa,Germanic / English,renowned warrior,Louis,feminine form,high,Behind the Name,Oxford Dictionary of First Names,"Feminine form of Louis, from Germanic elements for fame and battle."
+131,,Thea,Greek / Germanic,goddess; also short form of Dorothea or Theodora,Thea,original / diminutive,medium,Behind the Name,Wiktionary,"Greek thea means goddess; also used as a short form of names containing theo."
+132,,Ada,Germanic / Hebrew,noble; ornament,Ada,multiple origins,medium,Behind the Name,Wiktionary,Independent Germanic and Hebrew names share the spelling.
+133,,Rose,English / Latin,rose flower,Rose,flower name,high,Behind the Name,Wiktionary,"From the flower name, via Latin rosa."
+134,,June,English / Latin,June; associated with Juno,June,month name,high,Behind the Name,Wiktionary,"From the month name, traditionally named for Roman goddess Juno."
+135,,Willa,Germanic / English,resolute protector,William,feminine form,high,Behind the Name,Oxford Dictionary of First Names,"Feminine form of William, from will and helmet or protection."
+136,,Matilda,Germanic,strength in battle,Mahthildis,variant,high,Behind the Name,Wiktionary,"From Germanic maht, strength, and hild, battle."
+137,,Esme,French / Persian,esteemed; beloved,Esmé / Esma,multiple origins,medium,Behind the Name,Wiktionary,"French Esmé and Persian-related Esma traditions overlap in modern use."
+138,,Simone,French / Hebrew,he has heard,Simon,feminine form,high,Behind the Name,Wiktionary,French feminine form of Simon.
+139,,Cora,Greek,maiden,Kore,variant,high,Behind the Name,Wiktionary,"Latinized form of Greek Korē, maiden, an epithet of Persephone."
+140,,Diana,Latin / Roman,"divine, heavenly",Diana,original name,high,Behind the Name,Wiktionary,"Name of the Roman goddess; related to an Indo-European root for sky or divine."
+141,,Fiona,Scottish / Gaelic,"fair, white",Fiona,literary form,high,Behind the Name,Oxford Dictionary of First Names,"Literary Scottish name based on Gaelic fionn, fair or white."
+142,,Flora,Latin,flower,Flora,original name,high,Behind the Name,Wiktionary,"Latin flora, flowers; Roman goddess of flowers and spring."
+143,,Greer,Scottish / Greek,"watchful, alert",Gregory,surname transfer,high,Behind the Name Surnames,Oxford Dictionary of Family Names,"Transferred Scottish surname from Gregory, ultimately Greek grēgoros."
+144,,Ingrid,Old Norse,Ing is beautiful or beloved,Ingfríðr,variant,high,Behind the Name,Nordic Names,"From Old Norse Ingfríðr, combining the god Ing with beautiful or beloved."
+145,,Adelaide,Germanic,noble nature,Adalheidis,variant,high,Behind the Name,Oxford Dictionary of First Names,"From Germanic adal, noble, and heid, kind or nature."
