@@ -1009,7 +1009,6 @@ Annika
 Jaslyn
 Scout
 Simone
-Corinne
 Harmoni
 $ssa_names$, E'\n') with ordinality as seeded(display_name, ordinality)
 where trim(display_name) <> '';
