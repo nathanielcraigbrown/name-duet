@@ -50,6 +50,11 @@ function getStability(comparisons: number) {
   return 'Emerging'
 }
 
+function formatPreferenceScore(rating: number) {
+  const score = Math.round(rating - 1500)
+  return score > 0 ? `+${score}` : `${score}`
+}
+
 function getRankingTiers(rankings: Ranking[]): RankingTier[] {
   return [
     { label: 'Favorites', description: 'Your strongest current signals', rows: rankings.slice(0, 5) },
@@ -276,10 +281,10 @@ export default function App() {
               {rankings.length ? <>
                 <div className="resultSummary">
                   <div><strong>{rankings.length}</strong><span>leaders shown</span></div>
-                  <div><strong>{Math.round(topRating)}</strong><span>top Elo</span></div>
+                  <div><strong>{formatPreferenceScore(topRating)}</strong><span>top preference score</span></div>
                   <div><strong>{Math.max(0, Math.round(topRating - fifthRating))}</strong><span>points across top 5</span></div>
                 </div>
-                <p className="rankingStatus">{rankingStatus}. Elo rewards wins more when they come against stronger names.</p>
+                <p className="rankingStatus">{rankingStatus}. Preference scores start at 0 and rise or fall as names win and lose.</p>
                 {rankingTiers.map((tier) => (
                   <section className="tierSection" key={tier.label}>
                     <div className="tierHeading"><div><h3>{tier.label}</h3><p>{tier.description}</p></div></div>
@@ -288,7 +293,7 @@ export default function App() {
                         <span className="rankNumber">{item.rank_position}</span>
                         <div className="rankingMain">
                           <strong>{item.display_name}</strong>
-                          <span className="rankingMeta">{Math.round(item.rating)} Elo · {item.wins}–{item.losses} · {item.comparisons} matchups</span>
+                          <span className="rankingMeta">{formatPreferenceScore(item.rating)} preference · {item.wins}–{item.losses} · {item.comparisons} matchups</span>
                         </div>
                         <span className={`stabilityBadge ${getStability(item.comparisons).toLowerCase()}`}>{getStability(item.comparisons)}</span>
                       </article>
