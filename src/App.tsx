@@ -57,10 +57,16 @@ function formatPreferenceScore(rating: number) {
 }
 
 function getProgressLabel(comparisons: number) {
-  if (comparisons >= 400) return 'Solid result reached'
+  if (comparisons >= 600) return 'Optimized result reached'
+  if (comparisons >= 400) return 'Optimizing your shortlist'
   if (comparisons >= 250) return 'Shortlist taking shape'
   if (comparisons >= 150) return 'Favorites emerging'
   return 'Learning your taste'
+}
+
+function getProgressPercent(comparisons: number) {
+  if (comparisons <= 400) return Math.min(75, Math.round((comparisons / 400) * 75))
+  return Math.min(100, Math.round(75 + ((comparisons - 400) / 200) * 25))
 }
 
 function getDisplayRankings(rankings: Ranking[]): DisplayRanking[] {
@@ -251,8 +257,8 @@ export default function App() {
     const left = pair ? splitNameDetails(pair.left_name) : null
     const right = pair ? splitNameDetails(pair.right_name) : null
     const comparisonCount = pair?.comparison_count ?? 0
-    const progressTarget = 400
-    const progressPercent = Math.min(100, Math.round((comparisonCount / progressTarget) * 100))
+    const progressTarget = 600
+    const progressPercent = getProgressPercent(comparisonCount)
     const progressLabel = getProgressLabel(comparisonCount)
     const displayRankings = getDisplayRankings(rankings)
     const visibleRankings = displayRankings.filter((item) => item.displayRank <= 25)
