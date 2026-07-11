@@ -45,6 +45,14 @@ function splitNameDetails(value: string) {
   return { displayName, details: detailParts.join(' ').trim() }
 }
 
+function getNameExamples(displayName: string) {
+  const cleanName = displayName.trim()
+  return {
+    formal: `${cleanName} Fairchild Brown`,
+    professional: `Ms. ${cleanName} Brown`,
+  }
+}
+
 function getStability(comparisons: number) {
   if (comparisons >= 8) return 'Stable'
   if (comparisons >= 4) return 'Settling'
@@ -296,10 +304,18 @@ export default function App() {
               <div className="comparisonMeta"><span>{comparisonCount} choices made</span><span>Tap the name you prefer</span></div>
               {pair && left && right ? <div className={`liveCards ${loading ? 'isLoading' : ''}`}>
                 <button className="choiceCard" type="button" disabled={loading} onClick={() => vote(pair.left_id)}>
+                  <div className="choiceExamples" aria-hidden="true">
+                    <span className="choiceExampleFormal">{getNameExamples(left.displayName).formal}</span>
+                    <span className="choiceExampleProfessional">{getNameExamples(left.displayName).professional}</span>
+                  </div>
                   <strong className="choiceName">{left.displayName}</strong>
                   {left.details && <span className="choiceDetails">{left.details}</span>}
                 </button>
                 <button className="choiceCard alternate" type="button" disabled={loading} onClick={() => vote(pair.right_id)}>
+                  <div className="choiceExamples" aria-hidden="true">
+                    <span className="choiceExampleFormal">{getNameExamples(right.displayName).formal}</span>
+                    <span className="choiceExampleProfessional">{getNameExamples(right.displayName).professional}</span>
+                  </div>
                   <strong className="choiceName">{right.displayName}</strong>
                   {right.details && <span className="choiceDetails">{right.details}</span>}
                 </button>
