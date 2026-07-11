@@ -14,13 +14,13 @@
 .comparisonMeta { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 20px; color: #8a7471; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .055em; }
 .liveCards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 16px; transition: opacity .16s ease; min-width: 0; }
 .liveCards.isLoading { opacity: .55; }
-.choiceCard { min-width: 0; min-height: 330px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; text-align: left; border: 1px solid rgba(111,57,65,.24); border-radius: 24px; color: #2e2023; background: #dca9a3; box-shadow: 0 16px 36px rgba(95,45,56,.19); overflow: hidden; }
-.choiceCard.alternate { background: #c9848f; }
-.choiceCard:hover { transform: translateY(-2px); box-shadow: 0 21px 44px rgba(91,42,54,.24); }
+.choiceCard { min-width: 0; min-height: 330px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; text-align: left; border: 1px solid rgba(104,42,54,.29); border-radius: 24px; color: #2e2023; background: #d78f99; box-shadow: 0 16px 38px rgba(95,45,56,.22); overflow: hidden; }
+.choiceCard.alternate { background: #bd6879; }
+.choiceCard:hover { transform: translateY(-2px); box-shadow: 0 21px 44px rgba(91,42,54,.27); }
 .choiceCard:active { transform: scale(.992); }
 .choiceName { max-width: 100%; overflow-wrap: anywhere; font-family: Georgia, serif; font-size: clamp(42px, 7vw, 72px); font-weight: 500; line-height: 1; color: #2f2023; }
-.choiceDetails { max-width: 100%; color: #68474d; font-size: 14px; font-weight: 700; line-height: 1.4; letter-spacing: .035em; text-transform: uppercase; overflow-wrap: anywhere; }
-.choiceCard.alternate .choiceDetails { color: #604047; }
+.choiceDetails { max-width: 100%; color: #5d3941; font-size: 14px; font-weight: 700; line-height: 1.4; letter-spacing: .035em; text-transform: uppercase; overflow-wrap: anywhere; }
+.choiceCard.alternate .choiceDetails { color: #55333b; }
 .orBadge { display: none; }
 .loadingCard { min-height: 260px; display: grid; place-items: center; color: #806d6b; }
 .rankingHeader { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
@@ -33,15 +33,16 @@
 @media (max-width: 720px) {
   .appShell { height: 100svh; min-height: 100svh; overflow: hidden; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
   .appShell > .nav { padding-top: env(safe-area-inset-top); }
-  .workspace { margin-top: 8px; height: calc(100svh - 72px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); display: flex; flex-direction: column; min-height: 0; }
-  .workspaceHeader { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 8px; }
+  .workspace { margin-top: 8px; height: calc(100svh - 72px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .workspaceHeader { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 8px; flex: 0 0 auto; }
   .workspaceHeader > div:first-child { display: none; }
   .roomActions { width: 100%; display: grid; grid-template-columns: 1fr 1fr 48px; gap: 7px; }
   .compactButton { min-width: 0; padding: 8px 10px; font-size: 12px; line-height: 1.15; white-space: normal; }
-  .viewTabs { width: 100%; margin-bottom: 8px; }
+  .viewTabs { width: 100%; margin-bottom: 10px; flex: 0 0 auto; position: relative; z-index: 2; }
   .viewTabs button { padding: 7px 5px; gap: 5px; font-size: 12px; }
-  .comparisonStage, .rankingPanel { padding: 10px; border-radius: 20px; min-height: 0; overflow: auto; }
-  .comparisonStage { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 38px; }
+  .comparisonStage, .rankingPanel { padding: 10px; border-radius: 20px; min-height: 0; }
+  .comparisonStage { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 38px; position: relative; z-index: 1; }
+  .rankingPanel { flex: 1 1 0; overflow-y: auto; overflow-x: hidden; position: relative; z-index: 1; margin-top: 0; }
   .comparisonMeta { margin-bottom: 8px; font-size: 9px; flex: 0 0 auto; }
   .liveCards { flex: 1; min-height: 0; grid-template-columns: 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; padding-bottom: 0; }
   .choiceCard { min-height: 0; height: 100%; padding: 14px 16px; border-radius: 22px; gap: 8px; }
