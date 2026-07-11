@@ -56,6 +56,13 @@ function formatPreferenceScore(rating: number) {
   return score > 0 ? `+${score}` : `${score}`
 }
 
+function getProgressLabel(comparisons: number) {
+  if (comparisons >= 400) return 'Solid result reached'
+  if (comparisons >= 250) return 'Shortlist taking shape'
+  if (comparisons >= 150) return 'Favorites emerging'
+  return 'Learning your taste'
+}
+
 function getDisplayRankings(rankings: Ranking[]): DisplayRanking[] {
   let displayRank = 0
   let previousScore: number | null = null
@@ -243,6 +250,10 @@ export default function App() {
     const two = consensus[0]?.participant_two_name
     const left = pair ? splitNameDetails(pair.left_name) : null
     const right = pair ? splitNameDetails(pair.right_name) : null
+    const comparisonCount = pair?.comparison_count ?? 0
+    const progressTarget = 400
+    const progressPercent = Math.min(100, Math.round((comparisonCount / progressTarget) * 100))
+    const progressLabel = getProgressLabel(comparisonCount)
     const displayRankings = getDisplayRankings(rankings)
     const visibleRankings = displayRankings.filter((item) => item.displayRank <= 25)
     const rankingTiers = getRankingTiers(visibleRankings)
@@ -277,7 +288,11 @@ export default function App() {
 
           {view === 'compare' && (
             <section className="comparisonStage">
-              <div className="comparisonMeta"><span>{pair?.comparison_count ?? 0} choices made</span><span>Tap the name you prefer</span></div>
+              <div className="comparisonProgress" aria-label={`${comparisonCount} of ${progressTarget} comparisons`}>
+                <div className="progressCopy"><strong>{progressLabel}</strong><span>{comparisonCount} / {progressTarget}</span></div>
+                <div className="progressTrack"><span style={{ width: `${progressPercent}%` }} /></div>
+              </div>
+              <div className="comparisonMeta"><span>{comparisonCount} choices made</span><span>Tap the name you prefer</span></div>
               {pair && left && right ? <div className={`liveCards ${loading ? 'isLoading' : ''}`}>
                 <button className="choiceCard" type="button" disabled={loading} onClick={() => vote(pair.left_id)}>
                   <strong className="choiceName">{left.displayName}</strong>
@@ -293,7 +308,7 @@ export default function App() {
 
           {view === 'rankings' && (
             <section className="rankingPanel">
-              <div className="rankingHeader"><div><span className="kicker">Your current taste</span><h2>Top names</h2></div><span className="counter">{pair?.comparison_count ?? 0} votes</span></div>
+              <div className="rankingHeader"><div><span className="kicker">Your current taste</span><h2>Top names</h2></div><span className="counter">{comparisonCount} votes</span></div>
               {visibleRankings.length ? <>
                 <div className="resultSummary">
                   <div><strong>{visibleRankings.length}</strong><span>leaders shown</span></div>
