@@ -21,6 +21,8 @@ type ConsensusRow = {
   rank_gap: number
 }
 
+type RankingTier = { label: string; description: string; rows: Ranking[] }
+
 function loadSavedSession(): RoomSession | null {
   try {
     const saved = localStorage.getItem('name-duet-session')
@@ -42,6 +44,20 @@ function splitNameDetails(value: string) {
   return { displayName, details: detailParts.join(' ').trim() }
 }
 
+function getStability(comparisons: number) {
+  if (comparisons >= 8) return 'Stable'
+  if (comparisons >= 4) return 'Settling'
+  return 'Emerging'
+}
+
+function getRankingTiers(rankings: Ranking[]): RankingTier[] {
+  return [
+    { label: 'Favorites', description: 'Your strongest current signals', rows: rankings.slice(0, 5) },
+    { label: 'Strong contenders', description: 'Names still pressing the leaders', rows: rankings.slice(5, 15) },
+    { label: 'Still in play', description: 'Promising names that need more matchups', rows: rankings.slice(15, 25) },
+  ].filter((tier) => tier.rows.length)
+}
+
 export default function App() {
   const initialParams = new URLSearchParams(window.location.search)
   const [mode, setMode] = useState<Mode>(null)
@@ -60,7 +76,7 @@ export default function App() {
   const openForm = (nextMode: Exclude<Mode, null>) => { setError(''); setMode(nextMode) }
 
   const loadRankings = useCallback(async (participantToken: string) => {
-    const { data, error: rankingError } = await supabase.rpc('get_my_rankings', { p_access_token: participantToken, p_limit: 15 })
+    const { data, error: rankingError } = await supabase.rpc('get_my_rankings', { p_access_token: participantToken, p_limit: 25 })
     if (rankingError) throw rankingError
     setRankings((data ?? []) as Ranking[])
   }, [])
@@ -207,6 +223,10 @@ export default function App() {
     const two = consensus[0]?.participant_two_name
     const left = pair ? splitNameDetails(pair.left_name) : null
     const right = pair ? splitNameDetails(pair.right_name) : null
+    const rankingTiers = getRankingTiers(rankings)
+    const topRating = rankings[0]?.rating ?? 1500
+    const fifthRating = rankings[4]?.rating ?? topRating
+    const rankingStatus = rankings[0]?.comparisons >= 8 ? 'Leaders are stabilizing' : 'Top ranking is still settling'
 
     return (
       <main className="shell appShell">
@@ -253,7 +273,29 @@ export default function App() {
           {view === 'rankings' && (
             <section className="rankingPanel">
               <div className="rankingHeader"><div><span className="kicker">Your current taste</span><h2>Top names</h2></div><span className="counter">{pair?.comparison_count ?? 0} votes</span></div>
-              {rankings.length ? rankings.map((item) => <article className="rankingRow" key={item.name_id}><span className="rankNumber">{item.rank_position}</span><strong>{item.display_name}</strong><span className="record">{item.wins}–{item.losses}</span></article>) : <p className="emptyState">Make a few choices and your ranking will appear here.</p>}
+              {rankings.length ? <>
+                <div className="resultSummary">
+                  <div><strong>{rankings.length}</strong><span>leaders shown</span></div>
+                  <div><strong>{Math.round(topRating)}</strong><span>top Elo</span></div>
+                  <div><strong>{Math.max(0, Math.round(topRating - fifthRating))}</strong><span>points across top 5</span></div>
+                </div>
+                <p className="rankingStatus">{rankingStatus}. Elo rewards wins more when they come against stronger names.</p>
+                {rankingTiers.map((tier) => (
+                  <section className="tierSection" key={tier.label}>
+                    <div className="tierHeading"><div><h3>{tier.label}</h3><p>{tier.description}</p></div></div>
+                    {tier.rows.map((item) => (
+                      <article className="rankingRow" key={item.name_id}>
+                        <span className="rankNumber">{item.rank_position}</span>
+                        <div className="rankingMain">
+                          <strong>{item.display_name}</strong>
+                          <span className="rankingMeta">{Math.round(item.rating)} Elo · {item.wins}–{item.losses} · {item.comparisons} matchups</span>
+                        </div>
+                        <span className={`stabilityBadge ${getStability(item.comparisons).toLowerCase()}`}>{getStability(item.comparisons)}</span>
+                      </article>
+                    ))}
+                  </section>
+                ))}
+              </> : <p className="emptyState">Make a few choices and your ranking will appear here.</p>}
             </section>
           )}
 
