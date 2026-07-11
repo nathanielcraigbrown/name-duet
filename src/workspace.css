@@ -14,18 +14,19 @@
 .comparisonMeta { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 20px; color: #8a7471; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .055em; }
 .liveCards { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 16px; transition: opacity .16s ease; min-width: 0; }
 .liveCards.isLoading { opacity: .55; }
-.choiceCard { min-width: 0; min-height: 330px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; text-align: left; border: 1px solid rgba(102,63,61,.17); border-radius: 24px; color: #2f2525; background: #e8cfc4; box-shadow: 0 14px 34px rgba(95,53,56,.13); overflow: hidden; }
-.choiceCard.alternate { background: #dcb7b4; }
-.choiceCard:hover { transform: translateY(-2px); box-shadow: 0 20px 42px rgba(92,49,54,.18); }
+.choiceCard { min-width: 0; min-height: 330px; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; text-align: left; border: 1px solid rgba(111,57,65,.24); border-radius: 24px; color: #2e2023; background: #dca9a3; box-shadow: 0 16px 36px rgba(95,45,56,.19); overflow: hidden; }
+.choiceCard.alternate { background: #c9848f; }
+.choiceCard:hover { transform: translateY(-2px); box-shadow: 0 21px 44px rgba(91,42,54,.24); }
 .choiceCard:active { transform: scale(.992); }
-.choiceName { max-width: 100%; overflow-wrap: anywhere; font-family: Georgia, serif; font-size: clamp(42px, 7vw, 72px); font-weight: 500; line-height: 1; color: #302425; }
-.choiceDetails { max-width: 100%; color: #765758; font-size: 14px; font-weight: 700; line-height: 1.4; letter-spacing: .035em; text-transform: uppercase; overflow-wrap: anywhere; }
+.choiceName { max-width: 100%; overflow-wrap: anywhere; font-family: Georgia, serif; font-size: clamp(42px, 7vw, 72px); font-weight: 500; line-height: 1; color: #2f2023; }
+.choiceDetails { max-width: 100%; color: #68474d; font-size: 14px; font-weight: 700; line-height: 1.4; letter-spacing: .035em; text-transform: uppercase; overflow-wrap: anywhere; }
+.choiceCard.alternate .choiceDetails { color: #604047; }
 .orBadge { align-self: center; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(96,59,61,.18); border-radius: 50%; color: #8d6e6c; background: #fff9f6; font-family: Georgia, serif; font-style: italic; box-shadow: 0 4px 12px rgba(85,47,50,.1); }
 .loadingCard { min-height: 260px; display: grid; place-items: center; color: #806d6b; }
 .rankingHeader { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px; }
 .rankingRow { display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: 12px; min-height: 64px; padding: 10px 8px; border-top: 1px solid rgba(84,52,53,.1); }
 .rankingRow strong { font-family: Georgia, serif; font-size: 24px; font-weight: 500; }
-.rankNumber { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: #76494d; background: #e8cbc5; font-weight: 600; }
+.rankNumber { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: #6f4049; background: #dca1a8; font-weight: 600; }
 .record { color: #866f6e; font-variant-numeric: tabular-nums; }
 .emptyState { padding: 28px 0; color: #806d6b; }
 
@@ -40,10 +41,11 @@
   .viewTabs { width: 100%; margin-bottom: 8px; }
   .viewTabs button { padding: 7px 5px; gap: 5px; font-size: 12px; }
   .comparisonStage, .rankingPanel { padding: 10px; border-radius: 20px; min-height: 0; overflow: auto; }
-  .comparisonStage { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 30px; }
+  .comparisonStage { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding-bottom: 38px; }
   .comparisonMeta { margin-bottom: 8px; font-size: 9px; flex: 0 0 auto; }
-  .liveCards { flex: 1; min-height: 0; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 28px minmax(0, 1fr); gap: 6px; padding-bottom: 16px; }
-  .choiceCard { min-height: 0; height: 100%; padding: 14px 16px; border-radius: 18px; gap: 8px; }
+  .liveCards { flex: 1; min-height: 0; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) 28px minmax(0, 1fr); gap: 8px; padding-bottom: 0; }
+  .choiceCard { min-height: 0; height: 100%; padding: 14px 16px; border-radius: 22px; gap: 8px; }
+  .choiceCard.alternate { height: calc(100% - 22px); margin-bottom: 22px; border-radius: 24px; }
   .choiceName { font-size: clamp(34px, 11vw, 52px); }
   .choiceDetails { font-size: 12px; line-height: 1.35; letter-spacing: .025em; }
   .orBadge { width: 28px; height: 28px; justify-self: center; font-size: 14px; }
@@ -57,7 +59,8 @@
   .viewTabs button { font-size: 11px; }
   .viewTabs button svg { width: 15px; height: 15px; }
   .comparisonMeta span:last-child { display: none; }
-  .choiceCard { padding: 12px 14px; }
+  .choiceCard { padding: 12px 14px; border-radius: 22px; }
+  .choiceCard.alternate { height: calc(100% - 24px); margin-bottom: 24px; border-radius: 24px; }
   .choiceName { font-size: 34px; }
   .choiceDetails { font-size: 11px; line-height: 1.35; }
 }
