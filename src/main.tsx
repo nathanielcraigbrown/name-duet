@@ -5,6 +5,8 @@ import './styles.css'
 import './workspace.css'
 import './app.css'
 import './card-overrides.css'
+import './ssa-tab.css'
+import './ssa-tab'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
