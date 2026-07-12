@@ -7,6 +7,7 @@ import './app.css'
 import './card-overrides.css'
 import './ssa-tab.css'
 import './ssa-tab'
+import './progress-targets'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
