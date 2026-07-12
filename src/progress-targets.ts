@@ -9,9 +9,10 @@ function updateProgressTarget() {
   const countElement = progress.querySelector<HTMLElement>('.progressCopy span')
   const labelElement = progress.querySelector<HTMLElement>('.progressCopy strong')
   const fillElement = progress.querySelector<HTMLElement>('.progressTrack span')
-  if (!countElement || !labelElement || !fillElement) return
+  const choicesElement = document.querySelector<HTMLElement>('.comparisonMeta span:first-child')
+  if (!countElement || !labelElement || !fillElement || !choicesElement) return
 
-  const current = Number.parseInt(countElement.textContent?.split('/')[0]?.trim() ?? '0', 10)
+  const current = Number.parseInt(choicesElement.textContent?.match(/\d+/)?.[0] ?? '', 10)
   if (!Number.isFinite(current)) return
 
   const target = current >= 600 ? 900 : 600
@@ -40,5 +41,5 @@ function scheduleProgressUpdate() {
 }
 
 const progressObserver = new MutationObserver(scheduleProgressUpdate)
-progressObserver.observe(document.body, { childList: true, subtree: true })
+progressObserver.observe(document.body, { childList: true, subtree: true, characterData: true })
 scheduleProgressUpdate()
