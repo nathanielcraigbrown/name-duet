@@ -26,6 +26,35 @@ type NameStats = {
   matchups: Matchup[]
 }
 
+type ParticipantTogetherStats = {
+  participant_id: number
+  participant_name: string
+  display_rank: number | null
+  preference_score: number
+  wins: number
+  losses: number
+  comparisons: number
+  win_rate: number
+  matchups: Matchup[]
+}
+
+type TogetherStats = {
+  display_name: string
+  ssa_rank: number | null
+  origin: string | null
+  meaning: string | null
+  participants: ParticipantTogetherStats[]
+  combined: {
+    wins: number
+    losses: number
+    comparisons: number
+    win_rate: number
+    agreement_count: number
+    disagreement_count: number
+    matchups: Matchup[]
+  }
+}
+
 function getParticipantToken() {
   try {
     const saved = localStorage.getItem('name-duet-session')
@@ -49,13 +78,13 @@ function escapeHtml(value: string | null | undefined) {
     .replaceAll("'", '&#039;')
 }
 
-function renderStats(panel: HTMLElement, stats: NameStats) {
-  const matchupRows = stats.matchups.length
-    ? stats.matchups.map((matchup) => `
+function renderMatchups(matchups: Matchup[], showOpponentScore = true) {
+  return matchups.length
+    ? matchups.map((matchup) => `
       <div class="nameMatchupRow">
         <div>
           <strong>${escapeHtml(matchup.opponent_name)}</strong>
-          <span>${scoreLabel(matchup.opponent_score)} preference</span>
+          ${showOpponentScore ? `<span>${scoreLabel(matchup.opponent_score)} preference</span>` : ''}
         </div>
         <div class="nameMatchupRecord">
           <b>${matchup.wins}–${matchup.losses}</b>
@@ -64,7 +93,9 @@ function renderStats(panel: HTMLElement, stats: NameStats) {
       </div>
     `).join('')
     : '<p class="nameStatsEmpty">No head-to-head history yet.</p>'
+}
 
+function renderStats(panel: HTMLElement, stats: NameStats) {
   panel.innerHTML = `
     <div class="nameStatsTopline">
       <div>
@@ -93,10 +124,83 @@ function renderStats(panel: HTMLElement, stats: NameStats) {
         <h4>Head-to-head record</h4>
         <span>${stats.comparisons} total matchups</span>
       </div>
-      ${matchupRows}
+      ${renderMatchups(stats.matchups)}
     </div>
   `
 
+  panel.querySelector<HTMLButtonElement>('.nameStatsClose')?.addEventListener('click', () => panel.remove())
+}
+
+function renderTogetherBody(container: HTMLElement, stats: TogetherStats, key: string) {
+  if (key === 'combined') {
+    const combined = stats.combined
+    const sharedDecisions = combined.agreement_count + combined.disagreement_count
+    const agreementRate = sharedDecisions > 0 ? Math.round((combined.agreement_count / sharedDecisions) * 100) : 0
+    container.innerHTML = `
+      <div class="nameStatsGrid togetherStatsGrid">
+        <div><strong>${combined.win_rate}%</strong><span>Combined win rate</span></div>
+        <div><strong>${combined.wins}–${combined.losses}</strong><span>Combined record</span></div>
+        <div><strong>${agreementRate}%</strong><span>Agreement rate</span></div>
+        <div><strong>${combined.disagreement_count}</strong><span>Split opponents</span></div>
+      </div>
+      <div class="nameStatsHighlights togetherHighlights">
+        <div><span>Shared decisions</span><strong>${sharedDecisions}</strong></div>
+        <div><span>Agreed opponents</span><strong>${combined.agreement_count}</strong></div>
+        <div><span>Total matchups</span><strong>${combined.comparisons}</strong></div>
+      </div>
+      <div class="nameMatchups">
+        <div class="nameMatchupsHeader"><h4>Combined head-to-head</h4><span>Both people together</span></div>
+        ${renderMatchups(combined.matchups, false)}
+      </div>
+    `
+    return
+  }
+
+  const participant = stats.participants.find((item) => String(item.participant_id) === key)
+  if (!participant) return
+  container.innerHTML = `
+    <div class="nameStatsGrid togetherStatsGrid">
+      <div><strong>${participant.display_rank ? `#${participant.display_rank}` : '—'}</strong><span>${escapeHtml(participant.participant_name)} rank</span></div>
+      <div><strong>${scoreLabel(participant.preference_score)}</strong><span>Preference</span></div>
+      <div><strong>${participant.win_rate}%</strong><span>Win rate</span></div>
+      <div><strong>${participant.wins}–${participant.losses}</strong><span>Record</span></div>
+    </div>
+    <div class="nameMatchups">
+      <div class="nameMatchupsHeader"><h4>${escapeHtml(participant.participant_name)} head-to-head</h4><span>${participant.comparisons} total matchups</span></div>
+      ${renderMatchups(participant.matchups)}
+    </div>
+  `
+}
+
+function renderTogetherStats(panel: HTMLElement, stats: TogetherStats) {
+  const tabs = [
+    '<button type="button" class="togetherDetailTab active" data-detail-key="combined">Combined</button>',
+    ...stats.participants.map((participant) => `<button type="button" class="togetherDetailTab" data-detail-key="${participant.participant_id}">${escapeHtml(participant.participant_name)}</button>`),
+  ].join('')
+
+  panel.innerHTML = `
+    <div class="nameStatsTopline">
+      <div>
+        <span class="kicker">Together deep dive</span>
+        <h3>${escapeHtml(stats.display_name)}</h3>
+        <p>${stats.ssa_rank ? `SSA #${stats.ssa_rank}` : 'SSA N/A'}${stats.origin ? ` · ${escapeHtml(stats.origin)}` : ''}${stats.meaning ? ` ◆ ${escapeHtml(stats.meaning)}` : ''}</p>
+      </div>
+      <button class="nameStatsClose" type="button" aria-label="Close name details">×</button>
+    </div>
+    <div class="togetherDetailTabs" role="tablist">${tabs}</div>
+    <div class="togetherDetailBody"></div>
+  `
+
+  const body = panel.querySelector<HTMLElement>('.togetherDetailBody')
+  if (body) renderTogetherBody(body, stats, 'combined')
+
+  panel.querySelectorAll<HTMLButtonElement>('.togetherDetailTab').forEach((button) => {
+    button.addEventListener('click', () => {
+      panel.querySelectorAll('.togetherDetailTab').forEach((tab) => tab.classList.remove('active'))
+      button.classList.add('active')
+      if (body) renderTogetherBody(body, stats, button.dataset.detailKey ?? 'combined')
+    })
+  })
   panel.querySelector<HTMLButtonElement>('.nameStatsClose')?.addEventListener('click', () => panel.remove())
 }
 
@@ -120,7 +224,9 @@ async function openNameDetails(row: HTMLElement, displayName: string) {
     return
   }
 
-  const { data, error } = await supabase.rpc('get_name_detail_stats', {
+  const isTogether = row.classList.contains('consensusRow')
+  const rpcName = isTogether ? 'get_together_name_detail_stats' : 'get_name_detail_stats'
+  const { data, error } = await supabase.rpc(rpcName, {
     p_access_token: participantToken,
     p_display_name: displayName,
   })
@@ -130,7 +236,8 @@ async function openNameDetails(row: HTMLElement, displayName: string) {
     return
   }
 
-  renderStats(panel, data as NameStats)
+  if (isTogether) renderTogetherStats(panel, data as TogetherStats)
+  else renderStats(panel, data as NameStats)
 }
 
 function enhanceRows() {
