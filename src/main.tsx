@@ -8,6 +8,8 @@ import './card-overrides.css'
 import './ssa-tab.css'
 import './ssa-tab'
 import './progress-targets'
+import './name-details.css'
+import './name-details'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
