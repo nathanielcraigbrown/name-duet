@@ -105,6 +105,44 @@
   font-weight: 500;
 }
 
+.togetherDetailTabs {
+  display: flex;
+  gap: 6px;
+  margin-top: 18px;
+  padding: 4px;
+  overflow-x: auto;
+  border: 1px solid rgba(101,55,62,.1);
+  border-radius: 13px;
+  background: rgba(221,161,168,.1);
+}
+
+.togetherDetailTab {
+  flex: 1 0 auto;
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 9px;
+  color: #80666a;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.togetherDetailTab.active {
+  color: #4f3338;
+  background: #fffaf8;
+  box-shadow: 0 4px 12px rgba(87,50,54,.1);
+}
+
+.togetherDetailBody {
+  min-height: 120px;
+}
+
+.togetherHighlights strong {
+  font-family: inherit;
+  font-size: 18px;
+}
+
 .nameMatchups {
   margin-top: 20px;
 }
@@ -186,5 +224,16 @@
 
   .nameStatsGrid strong {
     font-size: 17px;
+  }
+
+  .togetherDetailTabs {
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+
+  .togetherDetailTab {
+    min-width: 92px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
