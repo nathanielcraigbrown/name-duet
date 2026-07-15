@@ -15,7 +15,7 @@
   .choiceExamples {
     top: 22px;
     right: 24px;
-    max-width: 54%;
+    max-width: 48%;
   }
 
   .choiceExampleFormal,
@@ -26,11 +26,11 @@
   }
 
   .choiceExampleFormal {
-    font-size: clamp(12px, 1.15vw, 15px);
+    font-size: clamp(11px, 1vw, 14px);
   }
 
   .choiceExampleProfessional {
-    font-size: clamp(10px, .95vw, 12px);
+    font-size: clamp(9px, .78vw, 11px);
   }
 
   .choiceName {
